@@ -4,13 +4,19 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="custom/index-scroll.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css-item/component.css" />
+		<link rel="stylesheet" type="text/css" href="css-item/fxsmall.css" />
+		<script src="js-item/modernizr.custom.js"></script>
 		<script src="js/mui.min.js"></script>
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=67jMQ5DmYTe1TLMBKFUTcZAR"></script>
 		<script type="text/javascript" src="js/iscroll.js"></script>
+		<script type="text/javascript" src="js/map/customMap.js"></script>
 		<style>
 			html,
 			body {
@@ -20,62 +26,26 @@
 				padding: 0.2em 0;
 			}
 			
-			#left {
-				/*vertical-align: middle;*/
-				position: absolute;
-				/*top: 10px;*/
-				left: 5px;
-				width: 50px;
-				/*height: 100%;*/
-				/*background-color: #CCCCCC*/
+			.itemDiv {
+				border: 1px solid saddlebrown;
+				width: 99%;
+				height: auto;
+				text-align: left;
+				padding: 2px;
 			}
 			
-			#right {
-				margin-left: 35px;
-				/*height: 100%;*/
-				/*background-color: #0099FF*/
+			.item-img {
+				float: left;
+				width: 90px;
+				height: 90px;
+				border: #6641E2 1px solid;
 			}
 		</style>
 		<script type="text/javascript">
-			mui.init()
-			var point = "";
-			//			console.log(getMyLacation());
-			$(document).ready(function() {
-				getMyLacation();
-				myScroll = new IScroll('#wrapper', {
-					scrollX: true,
-					scrollY: false,
-					mouseWheel: true,
-					click: true
-				});
-				document.addEventListener('touchmove', function(e) {
-					e.preventDefault();
-				}, false);
-				$("#scroller a").click(function() {
-					$("#scroller li").removeClass('testClass');
-					$(this).parent('li').addClass('testClass');
-					var str = $(this).parent('li').attr("id");
-					switch (str) {
-						case 'guokong':
-							console.log("国控单位");
-							var myIcon = new BMap.Icon("images/map/icon-06.png", new BMap.Size(75, 35));
-							break;
-						case 'shikong':
-							console.log("市控单位");
-							break;
-						case 'huanbao':
-							console.log("环保企业");
-							break;
-						case 'rencaixuqiu':
-							console.log("人才需求");
-							break;
-						default:
-							console.log("end");
-					}
-
-				});
-
-				//				getMyLacation();
+			mui.init({
+				gestureConfig: {
+					swipe: true, //默认为true
+				}
 			});
 
 			function getMyLacation() {
@@ -93,185 +63,59 @@
 					//					alert("当前定位城市:" + cityName);
 					$(".ac-pass").val(cityName);
 					//					return cityName;
-					
+
 				}
-				
-				
+
 			}
-			
 			$(function() {
-
-				// 百度地图API功能
-				var myIcon = new BMap.Icon("images/map/icon-06.png", new BMap.Size(75, 35));
-				var myIcon1 = new BMap.Icon("images/map-icon/icon-05.png", new BMap.Size(75, 35));
-				//				var myIcon = new BMap.Icon("images/map/factory_small.png", new BMap.Size(75, 35));
-				//				var myIcon1 = new BMap.Icon("images/map/high_school_small.png", new BMap.Size(75, 35));
-				var myIcon2 = new BMap.Icon("images/map/users.png", new BMap.Size(75, 35));
-				var map = new BMap.Map("allmap");
-				//				var point = "大连市";
-				//				var point = getMyLacation();
-
-				map.centerAndZoom(point, 14);
-				// 创建地址解析器实例
-				var myGeo = new BMap.Geocoder();
-				// 将地址解析结果显示在地图上,并调整地图视野
-				myGeo.getPoint("大连市中山区修竹大厦", function(point) {
-					if (point) {
-						//						map.centerAndZoom(point, 14);
-
-						var marker2 = new BMap.Marker(point, {
-							icon: myIcon
-						});
-						map.addOverlay(marker2);
-					} else {
-						alert("您选择地址没有解析到结果!");
-					}
-				}, "大连市");
-
-				myGeo.getPoint("大连市大连站", function(point) {
-					if (point) {
-						//						map.centerAndZoom(point, 14);
-						//						var myIcon = new BMap.Icon("images/map/factory_small.png", new BMap.Size(75, 35));
-						var marker2 = new BMap.Marker(point, {
-							icon: myIcon
-						});
-						map.addOverlay(marker2);
-					} else {
-						alert("您选择地址没有解析到结果!");
-					}
-				}, "大连市");
-
-				myGeo.getPoint("大连市中山广场", function(point) {
-					if (point) {
-						//						map.centerAndZoom(point, 14);
-						//						var myIcon = new BMap.Icon("images/map/factory_small.png", new BMap.Size(75, 35));
-						var marker2 = new BMap.Marker(point, {
-							icon: myIcon
-						});
-						map.addOverlay(marker2);
-					} else {
-						alert("您选择地址没有解析到结果!");
-					}
-				}, "大连市");
-
-				myGeo.getPoint("大连市第八中学", function(point) {
-					if (point) {
-						//						map.centerAndZoom(point, 14);
-						//						var myIcon = new BMap.Icon("images/map/factory_small.png", new BMap.Size(75, 35));
-						var marker2 = new BMap.Marker(point, {
-							icon: myIcon1
-						});
-						map.addOverlay(marker2);
-					} else {
-						alert("您选择地址没有解析到结果!");
-					}
-				}, "大连市");
-
-				myGeo.getPoint("大连市第一中学", function(point) {
-					if (point) {
-						//						map.centerAndZoom(point, 14);
-						//						var myIcon = new BMap.Icon("images/map/factory_small.png", new BMap.Size(75, 35));
-						var marker2 = new BMap.Marker(point, {
-							icon: myIcon1
-						});
-						map.addOverlay(marker2);
-					} else {
-						alert("您选择地址没有解析到结果!");
-					}
-				}, "大连市");
-
-				myGeo.getPoint("大连市第十六中学", function(point) {
-					if (point) {
-						//						map.centerAndZoom(point, 14);
-						//						var myIcon = new BMap.Icon("images/map/factory_small.png", new BMap.Size(75, 35));
-						var marker2 = new BMap.Marker(point, {
-							icon: myIcon1
-						});
-						map.addOverlay(marker2);
-					} else {
-						alert("您选择地址没有解析到结果!");
-					}
-				}, "大连市");
-
-				myGeo.getPoint("大连市中山区人民路天天渔港", function(point) {
-					if (point) {
-						//						map.centerAndZoom(point, 14);
-						//						var myIcon = new BMap.Icon("images/map/factory_small.png", new BMap.Size(75, 35));
-						var marker2 = new BMap.Marker(point, {
-							icon: myIcon2
-						});
-						map.addOverlay(marker2);
-					} else {
-						alert("您选择地址没有解析到结果!");
-					}
-				}, "大连市");
-
-				//创建
-				//				var pt = new BMap.Point(116.417, 39.909);
-				//				var myIcon = new BMap.Icon("images/map/factory_small.png", new BMap.Size(75, 35));
-				//				var marker2 = new BMap.Marker(pt, {
-				//					icon: myIcon
-				//				}); // 创建标注
-				//				map.addOverlay(marker2); // 将标注添加到地图中
-
-				//				var local = new BMap.LocalSearch(map, {
-				//					renderOptions: {
-				//						map: map
-				//					}
-				//				});
-				//				local.searchInBounds("银行", map.getBounds());
-				//
-				//				map.addEventListener("dragend", function() {
-				//					map.clearOverlays();
-				//					local.searchInBounds("银行", map.getBounds());
-				//				});
-				//				var zuoBiaoArr = Array('113.54143,22.274386', '116.54143,28.274386')
-				//				ShowMap(zuoBiaoArr, 'jQuery插件库', '金茂大厦', '021-888888888', '021-888888888', '12');
-			});
-
-			//			function ShowMap(zuoBiaoArr, name, addrsee, phone, chuanzhen, zoom) {
-			//				for (key in zuoBiaoArr) {
-			//					var arrzuobiao = zuoBiaoArr[key].split(',');
-			//					var map = new BMap.Map("allmap");
-			//					map.centerAndZoom(new BMap.Point(arrzuobiao[0], arrzuobiao[1]), zoom);
-			//					map.addControl(new BMap.NavigationControl());
-			//					var marker = new BMap.Marker(new BMap.Point(arrzuobiao[0], arrzuobiao[1]));
-			//					map.addOverlay(marker);
-			//					var infoWindow = new BMap.InfoWindow('<p style="color: #bf0008;font-size:14px;">' + name + '</p><p>地址：' + addrsee + '</p><p>电话：' + phone + '</p><p>传真：' + chuanzhen + '</p>');
-			//					marker.addEventListener("click", function() {
-			//						this.openInfoWindow(infoWindow);
-			//					});
-			//					marker.openInfoWindow(infoWindow);
-			//				}
-			//
-			//				//				var arrzuobiao = zuobiao.split(',');
-			//
-			//			}
+				$("#left .point").click(function(){
+					var w = plus.webview.create( "cityList.html" );
+					w.show("slide-in-top",500);
+				})
+			})
 		</script>
 
 	</head>
 
 	<body>
-		<div class="wrap">
+		<div class="wrap" style="overflow: hidden;">
 			<!--<div class="mui-input-row mui-search" style="height: 40px;">
 				<input type="search" class="mui-input-clear" placeholder="搜索污染项目所在地">
 			</div>-->
 			<div id="left">
-				<i class="point" onclick="getMyLacation()"></i>
-				<label id="myla"></label></div>
+				<span class="point"></span>
+				<!--<a class="mui-tab-item" href="cityList.html">
+					<span class="point"></span>
+					<label id="myla"></label>
+				</a>-->
+			</div>
 			<div id="right">
 				<input type="text" class="ac-pass" value="搜索污染项目所在地" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Form with icon';}"></div>
 
 			<div id="wrapper" class="twitter_widget_1">
 				<div id="scroller">
 					<ul>
-						<li class="testClass" id="all"><a href="javascript:void(0)"> 全部</a></li>
-						<li id="guokong"><span class="circle" style="color: #2AC845">●</span><a href="javascript:void(0)">国控单位</a></li>
-						<li id="shikong"><span class="circle" style="color: #0062CC">●</span><a href="javascript:void(0)">市控单位</a></li>
-						<li id="huanbao"><span class="circle" style="color: #EC971F">●</span><a href="javascript:void(0)">环保企业</a></li>
-						<li id="rencaixuqiu"><span class="circle" style="color: #6641E2">●</span><a href="javascript:void(0)">人才需求</a></li>
-						<li id="gaoxiaojishu"><span class="circle" style="color: #2187E7">●</span><a href="javascript:void(0)">高校技术</a></li>
-						<li id="erqi"><span class="circle" style="color: #CF2D28">●</span><a href="javascript:void(0)">二期功能</a></li>
+						<li class="testClass" id="all">
+							<a href="javascript:void(0)"> 全部</a>
+						</li>
+						<li id="guokong"><span class="circle" style="color: #2AC845">●</span>
+							<a href="javascript:void(0)">国控单位</a>
+						</li>
+						<li id="shikong"><span class="circle" style="color: #0062CC">●</span>
+							<a href="javascript:void(0)">市控单位</a>
+						</li>
+						<li id="huanbao"><span class="circle" style="color: #EC971F">●</span>
+							<a href="javascript:void(0)">环保企业</a>
+						</li>
+						<li id="rencaixuqiu"><span class="circle" style="color: #6641E2">●</span>
+							<a href="javascript:void(0)">人才需求</a>
+						</li>
+						<li id="gaoxiaojishu"><span class="circle" style="color: #2187E7">●</span>
+							<a href="javascript:void(0)">高校技术</a>
+						</li>
+						<li id="erqi"><span class="circle" style="color: #CF2D28">●</span>
+							<a href="javascript:void(0)">二期功能</a>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -283,24 +127,132 @@
 				<label id="myla">点击获取当前位置</label>
 			</div>-->
 			<div id="" style="margin-top: 10px">
-				<div style="width: 100%; height: 353px;" id="allmap"></div>
+				<div style="width: 100%; height: 303px;" id="allmap"></div>
 			</div>
+			<div id="result"></div>
 
+			<div style="text-align: center;margin-top: 5px;background: #FFFFFF;" id="testLeft">
+				<div id="component" class="component component-small">
+					<ul class="itemwrap">
+						<li class="current">
+							<div class="itemDiv">
+								<div class="item-img">
+								</div>
+
+								<h4>	<span class="mui-badge mui-badge-primary" style="font-size: 15px;">国控单位</span>南京中电熊猫液晶显示科技有限公司</h4>
+								<p>南京市 栖霞区 </p>
+							</div>
+
+						</li>
+						<li>
+							<div>aaaa</div>
+						</li>
+						<li>
+							<div>44444</div>
+						</li>
+						<li>
+							<div>555555</div>
+						</li>
+						<li>
+							<div>aaaa</div>
+						</li>
+					</ul>
+					<nav style="visibility: hidden;display: none;">
+						<a class="prev" href="#">Previous item</a>
+						<a class="next" href="#">Next item</a>
+					</nav>
+				</div>
+			</div>
 		</div>
-		<nav class="mui-bar mui-bar-tab">
-			<a id="defaultTab" class="mui-tab-item mui-active" href="tab-webview-subpage-about.html">
-				<span class="mui-icon mui-icon-home"></span>
-				<span class="mui-tab-label">首页</span>
-			</a>
-			<a class="mui-tab-item" href="tab-webview-subpage-chat.html">
-				<span class="mui-icon mui-icon-email"><span class="mui-badge">9</span></span>
-				<span class="mui-tab-label">消息</span>
-			</a>
-			<a class="mui-tab-item" href="tab-webview-subpage-setting.html">
-				<span class="mui-icon mui-icon-gear"></span>
-				<span class="mui-tab-label">设置</span>
-			</a>
-		</nav>
+		<script src="js-item/classie.js"></script>
+		</div>
+		<script>
+			function sliderLoad() {
+				var support = {
+						animations: Modernizr.cssanimations
+					},
+					animEndEventNames = {
+						'WebkitAnimation': 'webkitAnimationEnd',
+						'OAnimation': 'oAnimationEnd',
+						'msAnimation': 'MSAnimationEnd',
+						'animation': 'animationend'
+					},
+					// animation end event name
+					animEndEventName = animEndEventNames[Modernizr.prefixed('animation')],
+					//		effectSel = document.getElementById('fxselect'),
+					component = document.getElementById('component'),
+					items = component.querySelector('ul.itemwrap').children,
+					current = 0,
+					itemsCount = items.length,
+					nav = component.querySelector('nav'),
+					navNext = nav.querySelector('.next'),
+					navPrev = nav.querySelector('.prev'),
+					isAnimating = false;
+
+				var elem = document.getElementById("testLeft");
+				elem.addEventListener("swipeleft", function() {
+					console.log("你正在向左滑动");
+					navigate('next');
+				});
+
+				elem.addEventListener("swiperight", function() {
+					console.log("你正在向right滑动");
+					navigate('prev');
+				});
+			}
+
+			function navigate(dir) {
+			
+				component.className = component.className.replace(/\bfx.*?\b/g, '');
+				classie.addClass(component, "fxShinkansen");
+				if(isAnimating) return false;
+				isAnimating = true;
+				var cntAnims = 0;
+
+				var currentItem = items[current];
+
+				if(dir === 'next') {
+					current = current < itemsCount - 1 ? current + 1 : 0;
+				} else if(dir === 'prev') {
+					current = current > 0 ? current - 1 : itemsCount - 1;
+				} else {
+					current = 1;
+				}
+
+				var nextItem = items[current];
+
+				var onEndAnimationCurrentItem = function() {
+					this.removeEventListener(animEndEventName, onEndAnimationCurrentItem);
+					classie.removeClass(this, 'current');
+					classie.removeClass(this, dir === 'next' ? 'navOutNext' : 'navOutPrev');
+					++cntAnims;
+					if(cntAnims === 2) {
+						isAnimating = false;
+					}
+				}
+
+				var onEndAnimationNextItem = function() {
+					this.removeEventListener(animEndEventName, onEndAnimationNextItem);
+					classie.addClass(this, 'current');
+					classie.removeClass(this, dir === 'next' ? 'navInNext' : 'navInPrev');
+					++cntAnims;
+					if(cntAnims === 2) {
+						isAnimating = false;
+					}
+				}
+
+				if(support.animations) {
+					currentItem.addEventListener(animEndEventName, onEndAnimationCurrentItem);
+					nextItem.addEventListener(animEndEventName, onEndAnimationNextItem);
+				} else {
+					onEndAnimationCurrentItem();
+					onEndAnimationNextItem();
+				}
+
+				classie.addClass(currentItem, dir === 'next' ? 'navOutNext' : 'navOutPrev');
+				classie.addClass(nextItem, dir === 'next' ? 'navInNext' : 'navInPrev');
+			}
+		</script>
 	</body>
 
 </html>
