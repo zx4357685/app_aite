@@ -24,7 +24,7 @@
 				<span class="mui-tab-label">首页</span>
 			</a>
 			<a class="mui-tab-item" href="message.html">
-				<span class="mui-icon mui-icon-email"><span class="mui-badge">9</span></span>
+				<span class="mui-icon mui-icon-email"></span></span>
 				<span class="mui-tab-label">消息</span>
 			</a>
 			<a class="mui-tab-item" href="setting.html">
@@ -45,7 +45,7 @@
 			};
 			
 			var aniShow = {};
-			
+			var account = '';
 			 //创建子页面，首个选项卡页面显示，其它均隐藏；
 			mui.plusReady(function() {
 				var self = plus.webview.currentWebview();
@@ -60,6 +60,8 @@
 					}
 					self.append(sub);
 				}
+				account = plus.storage.getItem('account');
+//				plus.nativeUI.alert(account);
 			});
 			 //当前激活选项
 			var activeTab = subpages[0];
@@ -78,29 +80,52 @@
 					styles.hardwareAccelerated=true;
 				}
 				
-				//使用fade-in动画，且保存变量
-				var temp = {};
-				temp[targetTab] = "true";
-				mui.extend(aniShow,temp);
-				plus.webview.show(targetTab,"fade-in",300);
+				//若为iOS平台或非首次显示，则直接显示
+				if(mui.os.ios||aniShow[targetTab]){
+					plus.webview.show(targetTab);
+				}else{
+					//否则，使用fade-in动画，且保存变量
+					var temp = {};
+					temp[targetTab] = "true";
+					mui.extend(aniShow,temp);
+					plus.webview.show(targetTab,"fade-in",300);
+//					if(targetTab != "setting.html"){
+//						plus.webview.show(targetTab,"fade-in",300);	
+//					}
+//					else{
+//			            if(account){
+//			            	plus.webview.show(targetTab,"fade-in",300);
+//			            }else{
+//			            	plus.webview.show("login.html","fade-in",300);
+//			            }
+//					}
+				}
+				
+//				//使用fade-in动画，且保存变量
+//				var temp = {};
+//				temp[targetTab] = "true";
+//				mui.extend(aniShow,temp);
+//				plus.webview.show(targetTab,"fade-in",300);
 				
 				//隐藏当前;
 				plus.webview.hide(activeTab);
 				//更改当前活跃的选项卡
 				activeTab = targetTab;
 			});
+			mui.trigger(activeTab, 'tap');
+			plus.webview.show(activeTab,"fade-in",300);
 			 //自定义事件，模拟点击“首页选项卡”
-			document.addEventListener('gohome', function() {
-				var defaultTab = document.getElementById("defaultTab");
-				//模拟首页点击
-				mui.trigger(defaultTab, 'tap');
-				//切换选项卡高亮
-				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
-				if (defaultTab !== current) {
-					current.classList.remove('mui-active');
-					defaultTab.classList.add('mui-active');
-				}
-			});
+//			document.addEventListener('gohome', function() {
+//				var defaultTab = document.getElementById("defaultTab");
+//				//模拟首页点击
+//				mui.trigger(defaultTab, 'tap');
+//				//切换选项卡高亮
+//				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+//				if (defaultTab !== current) {
+//					current.classList.remove('mui-active');
+//					defaultTab.classList.add('mui-active');
+//				}
+//			});
 		</script>
 	</body>
 

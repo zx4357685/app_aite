@@ -1,95 +1,8 @@
-$(document).ready(function() {
-	console.log('test');
-	var point = "北京市"; //default
-	myScroll = new IScroll('#wrapper', {
-		scrollX: true,
-		scrollY: false,
-		mouseWheel: true,
-		click: true
-	});
-	document.addEventListener('touchmove', function(e) {
-		e.preventDefault();
-	}, false);
-	$("#scroller a").click(function() {
-		$("#scroller li").removeClass('testClass');
-		$(this).parent('li').addClass('testClass');
-		var str = $(this).parent('li').attr("id");
-		loadMap(str);
-	});
-
-	loadMap("all");
-});
-
-var myGeo = new BMap.Geocoder();
-
-function geocodeSearch(add, id) {
-	//		if(id < adds.length) {
-	//			setTimeout(window.bdGEO, 400);
-	//		}
-	myGeo.getPoint(add, function(point) {
-		if(point) {
-			document.getElementById("result").innerHTML += "<div id='point_" + add + "'>" + add + ":" + point.lng + "," + point.lat + "</div></br>";
-			var id = '#point' + add;
-			$(id).data('pointX', point.lng);
-			$(id).data('pointY', point.lat);
-		}
-	}, key);
-}
-var point = "大连市";
-var myJSONObject = {
-	"哈尔滨市": [{
-		"id": "0",
-		"name": "哈药集团世一堂制药厂",
-		"pointX": "",
-		"pointY": "",
-		"tag": "废水",
-		"qu": "道里区"
-	}, {
-		"id": "1",
-		"name": "中国石油天然气股份有限公司哈尔滨石化分公司",
-		"pointX": "",
-		"pointY": "",
-		"tag": "废水",
-		"qu": "道里区"
-	}, {
-		"id": "2",
-		"name": "哈尔滨东安发动机（集团）有限公司",
-		"pointX": "",
-		"pointY": "",
-		"tag": "废水",
-		"qu": "道里区"
-	}],		
-
-	"大庆市": [{
-		"id": "1",
-		"name": "大庆油田有限责任公司第一采油厂",
-		"pointX": "",
-		"pointY": "",
-		"tag": "废水",
-		"qu": "	萨尔图区"
-	}, {
-		"id": "2",
-		"name": "大庆中蓝石化有限公司",
-		"pointX": "",
-		"pointY": "",
-		"tag": "废水",
-		"qu": "让胡路区"
-	}]
-
-};
 
 function loadMap(item) {
-	document.getElementById("result").innerHTML = "";
-	$(".itemwrap").innerHTML = "";
-	//var data_nanjing = Array("南京中电熊猫液晶显示科技有限公司", "中石化股份有限公司金陵分公司");
-	//var data_dalian = Array("大连市第一中学", "大连市中山广场", "大连市修竹大厦");
-	var point = $.trim($(".ac-pass").val());
-	//	var myGeo = new BMap.Geocoder();
+
 	var point = "哈尔滨市";
 
-	//	var map = new BMap.Map("allmap");
-	//	map.centerAndZoom(point, 14);
-	//	var point = "大连";
 	switch(item) {
 		case 'all':
 
@@ -107,7 +20,7 @@ function loadMap(item) {
 
 						var add = myJSONObject[key][details].name;
 						var id = myJSONObject[key][details].id;
-						geocodeSearch(add, id);
+						geocodeSearch(add);
 
 						//console.log(add);
 						//				var  longitude  = "";  

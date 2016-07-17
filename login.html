@@ -150,10 +150,11 @@
 						plus.nativeUI.alert('密码不能为空', '', '注册失败', '确定' );
 						return;
 					}
-					ws=plus.webview.currentWebview();
-					ws.hide();
-					var w = plus.webview.create( "index.html" );
-					w.show();
+					plus.storage.setItem('account', accountBox.value);
+					plus.nativeUI.toast('登录成功');
+					var h=plus.webview.getWebviewById( plus.runtime.appid );
+					h.reload();
+					h.show();
 				});
 			});
 		</script>

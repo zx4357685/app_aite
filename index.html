@@ -16,7 +16,10 @@
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=67jMQ5DmYTe1TLMBKFUTcZAR"></script>
 		<script type="text/javascript" src="js/iscroll.js"></script>
-		<script type="text/javascript" src="js/map/customMap.js"></script>
+		<!--<script type="text/javascript" src="js/map/customMap.js"></script>-->
+		<script src="js-item/classie.js"></script>
+		<script type="text/javascript" src="js/map/data.js"></script>
+
 		<style>
 			html,
 			body {
@@ -42,37 +45,294 @@
 			}
 		</style>
 		<script type="text/javascript">
-			mui.init({
-				gestureConfig: {
-					swipe: true, //默认为true
+			var point = "北京";
+			var allpoint = guangzhou1.concat(guangzhou2);
+			var map = "";
+			var myGeo = "";
+			var icon = ""
+			var myIcon = new BMap.Icon("images/map/location_all.png", new BMap.Size(75, 35));
+
+			var support = {
+					animations: Modernizr.cssanimations
+				},
+				animEndEventNames = {
+					'WebkitAnimation': 'webkitAnimationEnd',
+					'OAnimation': 'oAnimationEnd',
+					'msAnimation': 'MSAnimationEnd',
+					'animation': 'animationend'
+				},
+				// animation end event name
+				animEndEventName = animEndEventNames[Modernizr.prefixed('animation')],
+				//				//		effectSel = document.getElementById('fxselect'),
+				component = "",
+				items = "",
+				current = 0,
+				//				itemsCount = items.length,
+				itemsCount = "",
+				nav = "",
+				navNext = "",
+				navPrev = "",
+				isAnimating = false;
+
+			//			var point = $.trim($(".ac-pass").val());
+			point = "广州市";
+
+			$(document).ready(function() {
+				map = new BMap.Map("allmap");
+				myGeo = new BMap.Geocoder();
+				map.centerAndZoom(point, 9);
+				myIcon = new BMap.Icon("images/map/location_all.png", new BMap.Size(75, 35));
+				for(key in allpoint) {
+					var add = allpoint[key];
+					geocodeSearch1(add, key, point);
 				}
+				mui.init({
+					gestureConfig: {
+						swipe: true, //默认为true
+					}
+				});
+				//				animEndEventName = animEndEventNames[Modernizr.prefixed('animation')],
+				//		effectSel = document.getElementById('fxselect'),
+				setInit();
+				//				console.log('test');
+				//	var point = "北京市"; //default
+				myScroll = new IScroll('#wrapper', {
+					scrollX: true,
+					scrollY: false,
+					mouseWheel: true,
+					click: true
+				});
+				document.addEventListener('touchmove', function(e) {
+					e.preventDefault();
+				}, false);
+				$("#scroller a").click(function() {
+					$("#scroller li").removeClass('testClass');
+					$(this).parent('li').addClass('testClass');
+					var str = $(this).parent('li').attr("id");
+					$("#itemwrap").html("");
+					//		loadMap(str);
+					switch(str) {
+						case 'guokong':
+							//							console.log('guokong');
+							point = $.trim($(".ac-pass").val());
+							point = "哈尔滨市";
+							map = new BMap.Map("allmap");
+							myGeo = new BMap.Geocoder();
+							map.centerAndZoom(point, 10);
+							myIcon = new BMap.Icon("images/map/icon-04.png", new BMap.Size(75, 35));
+							allpoint = haerbin;
+							setInit();
+							for(key in allpoint) {
+								var add = allpoint[key];
+								geocodeSearch1(add, key, point);
+							}
+							break;
+						case 'shikong':
+							//							console.log('guokong');
+							point = $.trim($(".ac-pass").val());
+							point = "大庆市";
+							map = new BMap.Map("allmap");
+							myGeo = new BMap.Geocoder();
+							map.centerAndZoom(point, 12);
+							myIcon = new BMap.Icon("images/map/icon-05.png", new BMap.Size(75, 35));
+							allpoint = daqing;
+							setInit();
+							for(key in allpoint) {
+								var add = allpoint[key];
+								geocodeSearch1(add, key, point);
+							}
+							break;
+						case 'huanbao':
+							//							console.log('guokong');
+							point = $.trim($(".ac-pass").val());
+							point = "南京市";
+							map = new BMap.Map("allmap");
+							myGeo = new BMap.Geocoder();
+							map.centerAndZoom(point, 10);
+							myIcon = new BMap.Icon("images/map/icon-01.png", new BMap.Size(75, 35));
+							allpoint = nanjing;
+							setInit();
+							for(key in allpoint) {
+								var add = allpoint[key];
+								geocodeSearch1(add, key, point);
+							}
+							break;
+
+					}
+
+				});
+				var elem = document.getElementById("testLeft");
+				elem.addEventListener("swipeleft", function() {
+					console.log("你正在向左滑动");
+					navigate('next');
+				});
+
+				elem.addEventListener("swiperight", function() {
+					console.log("你正在向right滑动");
+					navigate('prev');
+				});
+				//	loadMap("all");
 			});
 
-			function getMyLacation() {
-				var myCity = new BMap.LocalCity();
-				var city = myCity.get(myFun);
-//				console.log(city);
-				//				return city;
-				//				var map = new BMap.Map("allmap");
-				//				var point = new BMap.Point(116.331398, 39.897445);
-				//				map.centerAndZoom(point, 12);
+			function setInit() {
+				component = document.getElementById('component'),
+					items = component.querySelector('ul.itemwrap').children,
+					current = 0,
+					//				itemsCount = items.length,
+					itemsCount = allpoint.length,
+					nav = component.querySelector('nav'),
+					navNext = nav.querySelector('.next'),
+					navPrev = nav.querySelector('.prev'),
+					isAnimating = false;
+			}
 
-				function myFun(result) {
-					var cityName = result.name;
-					//					map.setCenter(cityName);
-					//					alert("当前定位城市:" + cityName);
-					$(".ac-pass").val(cityName);
-					//					return cityName;
+			function geocodeSearch1(add, id, point) {
 
+				if(id == 0) {
+
+					myGeo.getPoint(add, function(point) {
+						if(point) {
+							var str = '<li class="current" value="';
+							//							str += add;
+							str += point.lng + "_" + point.lat;
+							str += '" id=';
+							str += add;
+							str += '><div class="itemDiv"><div class="item-img"></div>';
+							str += '<h4><span class="mui-badge mui-badge-primary" style="font-size: 15px;">国控单位</span>';
+							str += add + '</h4></div><p>坐标X：'
+							str += point.lng + '</p></li>';
+							$("#itemwrap").append(str);
+							console.log(str);
+							//var myIcon = new BMap.Icon("images/map/icon-06.png", new BMap.Size(75, 35));
+							var marker = new BMap.Marker(point, {
+								icon: myIcon
+							});
+
+							marker.setAnimation(BMAP_ANIMATION_DROP);
+							marker.addEventListener("click", attribute);
+							map.addOverlay(marker);
+							//						document.getElementById("result").innerHTML += "<div id='point_" + add + "'>" + add + ":" + point.lng + "," + point.lat + "</div></br>";
+							//						var id = '#point' + add;
+							//						$(id).data('pointX', point.lng);
+							//						$(id).data('pointY', point.lat);
+						}
+					});
+				} else {
+
+					myGeo.getPoint(add, function(point) {
+						if(point) {
+							var str = '<li value="';
+							str += point.lng + "_" + point.lat;
+							str += '" id=';
+							str += add;
+							str += '><div class="itemDiv"><div class="item-img"></div>';
+							str += '<h4><span class="mui-badge mui-badge-primary" style="font-size: 15px;">国控单位</span>';
+							str += add + '</h4></div><p>坐标X：'
+							str += point.lng + '</p></li>';
+							$("#itemwrap").append(str);
+							console.log(str);
+							//							var myIcon = new BMap.Icon("images/map/icon-06.png", new BMap.Size(75, 35));
+							var marker = new BMap.Marker(point, {
+								icon: myIcon
+							});
+							marker.setAnimation(BMAP_ANIMATION_DROP);
+							marker.addEventListener("click", attribute);
+							map.addOverlay(marker);
+							//						document.getElementById("result").innerHTML += "<div id='point_" + add + "'>" + add + ":" + point.lng + "," + point.lat + "</div></br>";
+							//						var id = '#point' + add;
+							//						$(id).data('pointX', point.lng);
+							//						$(id).data('pointY', point.lat);
+						}
+					});
 				}
 
 			}
-			$(function() {
+
+			function attribute(e) {
+				var p = e.target;
+				alert("marker的位置是" + p.getPosition().lng + "," + p.getPosition().lat);
+				$("#itemwrap li").each(function(index) {
+					var point = $(this).attr('value');
+					var arr = point.split('_');
+					//					console.log(arr);
+					if(p.getPosition().lng == arr[0] && p.getPosition().lat == arr[1]) {
+						console.log(index);
+						navigate(index);
+					}
+				})
+
+			}
+
+			function navigate(dir) {
+				//				console.log(itemsCount);
+				component.className = component.className.replace(/\bfx.*?\b/g, '');
+				classie.addClass(component, "fxShinkansen");
+				if(isAnimating) return false;
+				isAnimating = true;
+				var cntAnims = 0;
+
+				var currentItem = items[current];
+				//				console.log(dir);
+				if(dir === 'next') {
+					current = current < itemsCount - 1 ? current + 1 : 0;
+				} else if(dir === 'prev') {
+					current = current > 0 ? current - 1 : itemsCount - 1;
+				} else {
+					current = dir;
+				}
+				//				console.log(current);
+				var nextItem = items[current];
+
+				var onEndAnimationCurrentItem = function() {
+					this.removeEventListener(animEndEventName, onEndAnimationCurrentItem);
+					classie.removeClass(this, 'current');
+					classie.removeClass(this, dir === 'next' ? 'navOutNext' : 'navOutPrev');
+					++cntAnims;
+					if(cntAnims === 2) {
+						isAnimating = false;
+					}
+				}
+
+				var onEndAnimationNextItem = function() {
+					this.removeEventListener(animEndEventName, onEndAnimationNextItem);
+					classie.addClass(this, 'current');
+					classie.removeClass(this, dir === 'next' ? 'navInNext' : 'navInPrev');
+					++cntAnims;
+					if(cntAnims === 2) {
+						isAnimating = false;
+					}
+				}
+
+				if(support.animations) {
+					currentItem.addEventListener(animEndEventName, onEndAnimationCurrentItem);
+					nextItem.addEventListener(animEndEventName, onEndAnimationNextItem);
+				} else {
+					onEndAnimationCurrentItem();
+					onEndAnimationNextItem();
+				}
+
+				classie.addClass(currentItem, dir === 'next' ? 'navOutNext' : 'navOutPrev');
+				classie.addClass(nextItem, dir === 'next' ? 'navInNext' : 'navInPrev');
+			}
+			
+			mui.plusReady(function() {
+				$(".ac-pass").val(plus.storage.getItem('city'));
+				plus.geolocation.getCurrentPosition( function ( p ) {
+//					alert( "Geolocation\nLatitude:" + p.coords.latitude + "\nLongitude:" + p.coords.longitude + "\nAltitude:" + p.coords.altitude );
+				}, function ( e ) {
+					alert( "Geolocation error: " + e.message );
+				} );
 				$("#left .point").click(function(){
 					var w = plus.webview.create( "cityList.html" );
-					w.show("slide-in-top",500);
+					w.show("slide-in-top",350);
 				})
 			})
+		</script>
+
+		<script>
+			//			var dir = 0;
+
+			//
 		</script>
 
 	</head>
@@ -133,8 +393,8 @@
 
 			<div style="text-align: center;margin-top: 5px;background: #FFFFFF;" id="testLeft">
 				<div id="component" class="component component-small">
-					<ul class="itemwrap">
-						<li class="current">
+					<ul class="itemwrap" id="itemwrap">
+						<!--<li class="current">
 							<div class="itemDiv">
 								<div class="item-img">
 								</div>
@@ -155,7 +415,7 @@
 						</li>
 						<li>
 							<div>aaaa</div>
-						</li>
+						</li>-->
 					</ul>
 					<nav style="visibility: hidden;display: none;">
 						<a class="prev" href="#">Previous item</a>
@@ -164,95 +424,9 @@
 				</div>
 			</div>
 		</div>
-		<script src="js-item/classie.js"></script>
+		
 		</div>
-		<script>
-			function sliderLoad() {
-				var support = {
-						animations: Modernizr.cssanimations
-					},
-					animEndEventNames = {
-						'WebkitAnimation': 'webkitAnimationEnd',
-						'OAnimation': 'oAnimationEnd',
-						'msAnimation': 'MSAnimationEnd',
-						'animation': 'animationend'
-					},
-					// animation end event name
-					animEndEventName = animEndEventNames[Modernizr.prefixed('animation')],
-					//		effectSel = document.getElementById('fxselect'),
-					component = document.getElementById('component'),
-					items = component.querySelector('ul.itemwrap').children,
-					current = 0,
-					itemsCount = items.length,
-					nav = component.querySelector('nav'),
-					navNext = nav.querySelector('.next'),
-					navPrev = nav.querySelector('.prev'),
-					isAnimating = false;
 
-				var elem = document.getElementById("testLeft");
-				elem.addEventListener("swipeleft", function() {
-					console.log("你正在向左滑动");
-					navigate('next');
-				});
-
-				elem.addEventListener("swiperight", function() {
-					console.log("你正在向right滑动");
-					navigate('prev');
-				});
-			}
-
-			function navigate(dir) {
-			
-				component.className = component.className.replace(/\bfx.*?\b/g, '');
-				classie.addClass(component, "fxShinkansen");
-				if(isAnimating) return false;
-				isAnimating = true;
-				var cntAnims = 0;
-
-				var currentItem = items[current];
-
-				if(dir === 'next') {
-					current = current < itemsCount - 1 ? current + 1 : 0;
-				} else if(dir === 'prev') {
-					current = current > 0 ? current - 1 : itemsCount - 1;
-				} else {
-					current = 1;
-				}
-
-				var nextItem = items[current];
-
-				var onEndAnimationCurrentItem = function() {
-					this.removeEventListener(animEndEventName, onEndAnimationCurrentItem);
-					classie.removeClass(this, 'current');
-					classie.removeClass(this, dir === 'next' ? 'navOutNext' : 'navOutPrev');
-					++cntAnims;
-					if(cntAnims === 2) {
-						isAnimating = false;
-					}
-				}
-
-				var onEndAnimationNextItem = function() {
-					this.removeEventListener(animEndEventName, onEndAnimationNextItem);
-					classie.addClass(this, 'current');
-					classie.removeClass(this, dir === 'next' ? 'navInNext' : 'navInPrev');
-					++cntAnims;
-					if(cntAnims === 2) {
-						isAnimating = false;
-					}
-				}
-
-				if(support.animations) {
-					currentItem.addEventListener(animEndEventName, onEndAnimationCurrentItem);
-					nextItem.addEventListener(animEndEventName, onEndAnimationNextItem);
-				} else {
-					onEndAnimationCurrentItem();
-					onEndAnimationNextItem();
-				}
-
-				classie.addClass(currentItem, dir === 'next' ? 'navOutNext' : 'navOutPrev');
-				classie.addClass(nextItem, dir === 'next' ? 'navInNext' : 'navInPrev');
-			}
-		</script>
 	</body>
 
 </html>

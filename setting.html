@@ -557,6 +557,7 @@
 			wvs[0].hide();
 			var w = plus.webview.create( "login.html" );
 			w.show("fade-in",300);
+			plus.storage.removeItem("account");
 		});
 		//		//意见反馈
 		//		document.getElementById("quest").addEventListener('tap', function() {
@@ -796,5 +797,22 @@
 //			mui.fire(main,'gohome');
 			checkUpdate();
 		});
+		
+		mui.plusReady(function() {
+            var account = plus.storage.getItem('account');
+            
+            if(account){
+            	$("#displayAccount").html('账号： '+ account);
+            }
+            
+//          if(account != 'null' ||  account != ''){
+//          	$("#displayAccount").html('账号： '+ account);
+//          }else{
+//          	var wvs=plus.webview.all();
+//				wvs[0].hide();
+//				var w = plus.webview.create( "login.html" );
+//				w.show("fade-in",300);
+//          }
+        });
 	</script>
 </html>

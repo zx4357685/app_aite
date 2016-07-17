@@ -90,7 +90,7 @@
 							plus.nativeUI.alert('密码两次输入不一致', '', '注册失败', '确定' );
 							return;
 						}
-						
+						plus.storage.setItem('account', accountBox.value);
 						plus.nativeUI.toast('注册成功');
 						var h=plus.webview.getWebviewById( plus.runtime.appid );
 						h.reload();

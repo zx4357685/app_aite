@@ -28,20 +28,30 @@
 		</style>
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
-			mui.ready(function() {
+			mui.ready(function(){
 				$.each(chineseCities,function(name,value) {
-					var html = "<li data-tags='"+value.pinyin+"' class='mui-table-view-cell mui-indexed-list-item'>"+value.name+"</li>";
-					var firstPin = value.pinyin.substr(0, 1);
-					$("#cityList"+firstPin).after(html);
-//					value.pinyin.substr(0, 1))
-				});
-				var header = document.querySelector('header.mui-bar');
-				var list = document.getElementById('list');
-				//calc hieght
-				list.style.height = (document.body.offsetHeight) + 'px';
-				//create
-				window.indexedList = new mui.IndexedList(list);
-			});
+                    var html = "<li data-tags='"+value.pinyin+"' class='mui-table-view-cell mui-indexed-list-item'>"+value.name+"</li>";
+                    var firstPin = value.pinyin.substr(0, 1);
+                    $("#cityList"+firstPin).after(html);
+//                    value.pinyin.substr(0, 1))
+                });
+                var header = document.querySelector('header.mui-bar');
+                var list = document.getElementById('list');
+                //calc hieght
+                list.style.height = (document.body.offsetHeight-40) + 'px';
+                //create
+                window.indexedList = new mui.IndexedList(list);
+			})
+            mui.plusReady(function() {
+                $(".mui-indexed-list-item").click(function(){
+                    plus.storage.setItem("city",$(this).html());
+                    var ws=plus.webview.currentWebview();
+                    var h=plus.webview.getWebviewById( plus.runtime.appid );
+                    h.reload();
+                    ws.hide();
+                    h.show();
+                })
+            });
 		</script>
 	</head>
 
