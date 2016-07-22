@@ -134,7 +134,7 @@
 							break;
 						case 'guokong':
 							//							console.log('guokong');
-							point = $.trim($("#searchCity input").val());
+							point = $.trim($(".ac-pass").val());
 							point = "哈尔滨市";
 							map = new BMap.Map("allmap");
 							myGeo = new BMap.Geocoder();
@@ -149,7 +149,7 @@
 							break;
 						case 'shikong':
 							//							console.log('guokong');
-							point = $.trim($("#searchCity input").val());
+							point = $.trim($(".ac-pass").val());
 							point = "大庆市";
 							map = new BMap.Map("allmap");
 							myGeo = new BMap.Geocoder();
@@ -164,7 +164,7 @@
 							break;
 						case 'huanbao':
 							//							console.log('guokong');
-							point = $.trim($("#searchCity input").val());
+							point = $.trim($(".ac-pass").val());
 							point = "南京市";
 							map = new BMap.Map("allmap");
 							myGeo = new BMap.Geocoder();
@@ -336,7 +336,7 @@
 			
 			mui.plusReady(function() {
 				plus.navigator.closeSplashscreen();
-				$("#searchCity input").val(plus.storage.getItem('city'));
+				$(".ac-pass").val(plus.storage.getItem('city'));
 				plus.geolocation.getCurrentPosition( function ( p ) {
 //					alert( "Geolocation\nLatitude:" + p.coords.latitude + "\nLongitude:" + p.coords.longitude + "\nAltitude:" + p.coords.altitude );
 				}, function ( e ) {
@@ -353,7 +353,7 @@
                     $("#searchCity input").val(city);
                 })  
 				
-				$("#searchCity input").focus(function(){
+				$("#left .point").click(function(){
 //					var w = plus.webview.create( "cityList.html" );
 					cityList.show("slide-in-top",350);
 					mui.openWindow({
@@ -382,16 +382,14 @@
 
 	<body>
 		<div class="wrap" style="overflow: hidden;">
-			<div class="mui-input-row mui-search" style="height: 40px;" id="searchCity">
+			<!--<div class="mui-input-row mui-search" style="height: 40px;">
 				<input type="search" class="mui-input-clear" placeholder="搜索污染项目所在地">
-			</div>
-			<!--<div id="left">
-				<i class="point"></i>
+			</div>-->
+			<div id="left">
+				<i class="point" onclick="getMyLacation()"></i>
 				<label id="myla"></label></div>
 			<div id="right">
-				<input type="text" class="ac-pass" value="搜索污染项目所在地" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Form with icon';}">
-			</div>-->
-			
+				<input type="text" class="ac-pass" value="搜索污染项目所在地" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Form with icon';}"></div>
 
 			<div id="wrapper" class="twitter_widget_1">
 				<div id="scroller">
@@ -464,7 +462,6 @@
 					</nav>
 				</div>
 			</div>
-		</div>
 		
 		</div>
 
