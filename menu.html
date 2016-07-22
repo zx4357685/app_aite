@@ -9,6 +9,7 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="js/jquery-1.11.1.min.js"></script>
 		<style>
 			html,
 			body {
@@ -36,98 +37,112 @@
 		<script src="js/app.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			 //mui初始化
-			
-			mui.init();
 			var subpages = ['index.html', 'message.html', 'setting.html'];
 			var subpage_style = {
 				top: '0px',
 				bottom: '51px',
 				bounce: 'vertical'
 			};
+			var subpages = [
+			    {
+			        url:'setting.html',
+			        id:'setting.html',
+			        styles:subpage_style
+			    },
+			    {
+			        url:'message.html',
+			        id:'message.html',
+			        styles:subpage_style
+			    },
+			    {
+			        url:'index.html',
+			        id:'index.html',
+			        styles:subpage_style
+			    },
+			];
 			
-			var aniShow = {};
-			var account = '';
-			 //创建子页面，首个选项卡页面显示，其它均隐藏；
+			mui.init({
+				subpages:subpages,
+				preloadPages:[{
+			        url:'index.html',
+			        id:'index.html',
+			        styles:subpage_style
+				}],
+				keyEventBind: {
+					backbutton: true,  //Boolean(默认true)关闭back按键监听
+					menubutton: true   //Boolean(默认true)关闭menu按键监听
+				},
+			})
+			
 			mui.plusReady(function() {
-				var self = plus.webview.currentWebview();
-				for (var i = 0; i < 3; i++) {
-					var temp = {};
-					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
-					if (i > 0) {
-						sub.hide();
-					}else{
-						temp[subpages[i]] = "true";
-						mui.extend(aniShow,temp);
-					}
-					self.append(sub);
-				}
+				mui.openWindow({
+					id: "index.html",
+					show: {
+						aniShow: 'fade-in',
+						autoShow:false
+					},
+					styles: subpage_style
+				});
 				account = plus.storage.getItem('account');
 				document.getElementById('bottomx').style.top = (plus.display.resolutionHeight - 50) + "px";
-//				plus.nativeUI.alert(account);
 			});
-			 //当前激活选项
-			var activeTab = subpages[0];
-			 //选项卡点击事件
+			
+			activeTab = "index.html";
 			mui('.mui-bar-tab').on('tap', 'a', function(e) {
 				var targetTab = this.getAttribute('href');
 				if (targetTab == activeTab) {
 					return;
 				}
-				//显示目标选项卡
-				//若为iOS平台或非首次显示，则直接显示
-				
-				var styles={};
 				// 在Android5以上设备，如果默认没有开启硬件加速，则强制设置开启
 				if(!plus.webview.defaultHardwareAccelerated()&&parseInt(plus.os.version)>=5){
 					styles.hardwareAccelerated=true;
 				}
 				
-				//若为iOS平台或非首次显示，则直接显示
-				if(mui.os.ios||aniShow[targetTab]){
-					plus.webview.show(targetTab);
-				}else{
-					//否则，使用fade-in动画，且保存变量
-					var temp = {};
-					temp[targetTab] = "true";
-					mui.extend(aniShow,temp);
-					plus.webview.show(targetTab,"fade-in",300);
-//					if(targetTab != "setting.html"){
-//						plus.webview.show(targetTab,"fade-in",300);	
-//					}
-//					else{
-//			            if(account){
-//			            	plus.webview.show(targetTab,"fade-in",300);
-//			            }else{
-//			            	plus.webview.show("login.html","fade-in",300);
-//			            }
-//					}
-				}
+				mui.openWindow({
+					id: targetTab,
+					show: {
+						aniShow: 'fade-in'
+					},
+					styles: subpage_style
+				});
 				
-//				//使用fade-in动画，且保存变量
-//				var temp = {};
-//				temp[targetTab] = "true";
-//				mui.extend(aniShow,temp);
-//				plus.webview.show(targetTab,"fade-in",300);
-				
-				//隐藏当前;
-				plus.webview.hide(activeTab);
-				//更改当前活跃的选项卡
 				activeTab = targetTab;
 			});
-			mui.trigger(activeTab, 'tap');
-			plus.webview.show(activeTab,"fade-in",300);
-			 //自定义事件，模拟点击“首页选项卡”
-//			document.addEventListener('gohome', function() {
-//				var defaultTab = document.getElementById("defaultTab");
-//				//模拟首页点击
-//				mui.trigger(defaultTab, 'tap');
-//				//切换选项卡高亮
-//				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
-//				if (defaultTab !== current) {
-//					current.classList.remove('mui-active');
-//					defaultTab.classList.add('mui-active');
-//				}
-//			});
+			
+			var first = null;
+			mui.back = function() {
+				if (!first) {
+					first = new Date().getTime();
+					mui.toast('再按一次退出应用');
+					setTimeout(function() {
+						first = null;
+					}, 1000);
+				} else {
+					if (new Date().getTime() - first < 1000) {
+						plus.runtime.quit();
+					}
+				}
+			};
+			
+			document.addEventListener("DOMContentLoaded", function() {
+			    footerOffsetTop = document.getElementById("bottomx").offsetTop;
+			});
+			var index = 0;
+			window.addEventListener("resize", function() {
+//			    if (mui.os.android) {// 修正:android下输入法让footer上移问题
+			        var offsetTop = document.getElementById("bottomx").offsetTop;
+			        if (index % 2 === 0) {
+			            if (offsetTop === 0) {
+			            	$("#bottomx").removeClass("mui-hidden");
+			            } else {
+			                if (offsetTop < footerOffsetTop) {
+			                	$("#bottomx").addClass("mui-hidden");
+			                }
+			            }
+			        }
+			        index++;
+//			    }
+			})
 		</script>
 	</body>
 

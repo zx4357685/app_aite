@@ -43,13 +43,21 @@
                 window.indexedList = new mui.IndexedList(list);
 			})
             mui.plusReady(function() {
+            	var Page = null;
                 $(".mui-indexed-list-item").click(function(){
-                    plus.storage.setItem("city",$(this).html());
+                	plus.storage.setItem("city",$(this).html());
+                	if (!Page) {  
+                        Page = plus.webview.getWebviewById('index.html');  
+                    }  
+                    mui.fire(Page, 'show', {  
+                        city: $(this).html(),
+                    });  
+                    mui.openWindow({ //目标页面  
+                        id: 'index.html',  
+                    }); 
+                    
                     var ws=plus.webview.currentWebview();
-                    var h=plus.webview.getWebviewById( plus.runtime.appid );
-                    h.reload();
                     ws.hide();
-                    h.show();
                 })
             });
 		</script>
