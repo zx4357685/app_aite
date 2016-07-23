@@ -228,5 +228,6 @@ var chineseCities = [
 {label:"庆阳Qingyang0934",name:"庆阳",pinyin:"Qingyang",zip:"0934"},  
 {label:"清远Qingyuan0763",name:"清远",pinyin:"Qingyuan",zip:"0763"},  
 {label:"秦皇岛Qinhuangdao0335",name:"秦皇岛",pinyin:"Qinhuangdao",zip:"0335"},  
-{label:"钦州Qinzhou0777",name:"钦州",pinyin:"Qinzhou",zip:"0777"}
+{label:"钦州Qinzhou0777",name:"钦州",pinyin:"Qinzhou",zip:"0777"},
+{label:"宜兴Yixing0510",name:"宜兴",pinyin:"Yixing",zip:"0510"},  
 ];

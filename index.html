@@ -14,20 +14,12 @@
 		<script src="js-item/modernizr.custom.js"></script>
 		<script src="js/mui.min.js"></script>
 		<script src="js/jquery-1.11.1.min.js"></script>
-		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=67jMQ5DmYTe1TLMBKFUTcZAR"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=twFyhU6GYnTbArkZMyDcerW5dm8MdxU8"></script>
 		<script type="text/javascript" src="js/iscroll.js"></script>
 		<!--<script type="text/javascript" src="js/map/customMap.js"></script>-->
 		<script src="js-item/classie.js"></script>
 		<script type="text/javascript" src="js/map/data.js"></script>
-
 		<style>
-			html,
-			body {
-				font-family: "微软雅黑", 'Roboto', sans-serif;
-				font-size: 100%;
-				background-color: #f0f2f5;
-				padding: 0.2em 0;
-			}
 			
 			.itemDiv {
 				box-shadow: 0 .1em .1em 0 rgba(0, 0, 0, .1);
@@ -49,8 +41,34 @@
 				/*border: #6641E2 1px solid;*/
 				margin-right:5px;
 			}
+			.mui-bar-tab .mui-tab-item.mui-active{
+				color:#929292;
+			}
 		</style>
 		<script type="text/javascript">
+			mui.init({
+				keyEventBind: {
+					backbutton: true,  //Boolean(默认true)关闭back按键监听
+					menubutton: true   //Boolean(默认true)关闭menu按键监听
+				},
+				gestureConfig: {
+					swipe: true, //默认为true
+				}
+			})
+			var first = null;
+			mui.back = function() {
+				if (!first) {
+					first = new Date().getTime();
+					mui.toast('再按一次退出应用');
+					setTimeout(function() {
+						first = null;
+					}, 1000);
+				} else {
+					if (new Date().getTime() - first < 1000) {
+						plus.runtime.quit();
+					}
+				}
+			};
 			var point = "北京";
 			var allpoint = guangzhou1.concat(guangzhou2);
 			var map = "";
@@ -92,11 +110,14 @@
 					var add = allpoint[key];
 					geocodeSearch1(add, key, point);
 				}
-				mui.init({
-					gestureConfig: {
-						swipe: true, //默认为true
-					}
-				});
+				
+				//				mui('.mui-scroll-wrapper').scroll();
+				//				mui('body').on('shown', '.mui-popover', function(e) {
+				//					//console.log('shown', e.detail.id);//detail为当前popover元素
+				//				});
+				//				mui('body').on('hidden', '.mui-popover', function(e) {
+				//					//console.log('hidden', e.detail.id);//detail为当前popover元素
+				//				});
 				//				animEndEventName = animEndEventNames[Modernizr.prefixed('animation')],
 				//		effectSel = document.getElementById('fxselect'),
 				setInit();
@@ -334,63 +355,134 @@
 				classie.addClass(nextItem, dir === 'next' ? 'navInNext' : 'navInPrev');
 			}
 			
+			mui.ready(function(){
+				mui(".mui-bar-tab a")[0].classList.add('mui-active');
+			})
+			
 			mui.plusReady(function() {
-				plus.navigator.closeSplashscreen();
+//				plus.navigator.closeSplashscreen();
 				$(".ac-pass").val(plus.storage.getItem('city'));
 				plus.geolocation.getCurrentPosition( function ( p ) {
+					var geoc = new BMap.Geocoder();
+					var point = new BMap.Point(p.coords.longitude,p.coords.latitude);
+					geoc.getLocation(point, function(rs){
+						var addComp = rs.addressComponents;
+//						alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+						gpsCity = addComp.city;
+					});
 //					alert( "Geolocation\nLatitude:" + p.coords.latitude + "\nLongitude:" + p.coords.longitude + "\nAltitude:" + p.coords.altitude );
 				}, function ( e ) {
 					alert( "Geolocation error: " + e.message );
 				} );
 				
+				
 				var cityList = mui.preload({
 				    url:"cityList.html",
 				    id:"cityList.html"
 				});
+				
+				var messagePage = mui.preload({
+				    url:"message.html",
+				    id:"message.html"
+				});
+				
+				var settingPage = mui.preload({
+				    url:"setting.html",
+				    id:"setting.html"
+				});
+				
 				window.addEventListener('show', function(event) {  
                     //获得事件参数  
+//                  alert("show")
                     var city= event.detail.city;  
-                    $("#searchCity input").val(city);
+                    $("#myla").html(city);
                 })  
 				
-				$("#left .point").click(function(){
+				$(".point").click(function(){
 //					var w = plus.webview.create( "cityList.html" );
+					mui.fire(cityList, 'show', {  
+                        gpsCity: gpsCity,
+                    });
 					cityList.show("slide-in-top",350);
-					mui.openWindow({
-						id: 'cityList.html',
-						show: {
-							aniShow: 'slide-in-top'
-						},
-						styles: {
-							popGesture: 'hide'
-						},
-						waiting: {
-							autoShow: false
-						}
-					});
-				})
+//					mui.openWindow({
+//						id: 'cityList.html',
+//						show: {
+//							aniShow: 'slide-in-top'
+//						},
+//						styles: {
+//							popGesture: 'hide'
+//						},
+//						waiting: {
+//							autoShow: false
+//						}
+//					});
+				});
+				mui('.mui-bar-tab').on('tap', 'a', function(e) {
+					var targetTab = this.getAttribute('href');
+					if (targetTab == "index.html") {
+						return;
+					}
+					// 在Android5以上设备，如果默认没有开启硬件加速，则强制设置开启
+					if(!plus.webview.defaultHardwareAccelerated()&&parseInt(plus.os.version)>=5){
+						styles.hardwareAccelerated=true;
+					}
+					if(targetTab == "message.html"){
+						messagePage.show("fade-in");
+					}
+					if(targetTab == "setting.html"){
+						settingPage.show("fade-in");
+					}
+				});
 			})
-		</script>
-
-		<script>
-			//			var dir = 0;
-
-			//
-		</script>
-
+	    </script>
 	</head>
 
 	<body>
+		<nav class="mui-bar mui-bar-tab" id='bottomx'>
+			<a id="defaultTab" class="mui-tab-item" href="index.html"  style='color: #007aff;'>
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" href="message.html">
+				<span class="mui-icon mui-icon-email"></span></span>
+				<span class="mui-tab-label">消息</span>
+			</a>
+			<a class="mui-tab-item" href="setting.html">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">设置</span>
+			</a>
+		</nav>
 		<div class="wrap" style="overflow: hidden;">
-			<!--<div class="mui-input-row mui-search" style="height: 40px;">
-				<input type="search" class="mui-input-clear" placeholder="搜索污染项目所在地">
-			</div>-->
-			<div id="left">
-				<i class="point" onclick="getMyLacation()"></i>
-				<label id="myla"></label></div>
-			<div id="right">
-				<input type="text" class="ac-pass" value="搜索污染项目所在地" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Form with icon';}"></div>
+			<div class="mui-row">
+				<div class="mui-col-xs-2" align="center">
+					<i class="point"></i>
+					<label id="myla" style="cursor: pointer;">大连</label>
+				</div>
+				<div class="mui-col-xs-9">
+					<input type="text" class="ac-pass" value="搜索" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'search';}"></div>
+				<div class="mui-col-xs-1" style="line-height: 45px;" align="center">
+					<a id="menu" style="line-height: 40px" class="mui-action-menu mui-icon mui-icon-bars mui-pull-right" href="#topPopover"></a>
+				</div>
+					<!--右上角弹出菜单-->
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						
+						<li class="mui-table-view-cell">				
+							<a><span class="mui-icon mui-icon-compose"></span>需求发布</a>
+						</li>
+						<li class="mui-table-view-cell"><a href="#">Item3</a>
+						</li>
+						
+					</ul>
+				</div>
+			</div>
 
+		</div>
+
+			</div>
 			<div id="wrapper" class="twitter_widget_1">
 				<div id="scroller">
 					<ul>
@@ -431,30 +523,8 @@
 			<div id="result"></div>
 
 			<div style="text-align: center;margin-top: 5px;background: #FFFFFF;" id="testLeft">
-				<div id="component" class="component component-small">
+				<div id="component" class="component component-small" style="height:125px;margin-bottom: 10px;">
 					<ul class="itemwrap" id="itemwrap">
-						<!--<li class="current">
-							<div class="itemDiv">
-								<div class="item-img">
-								</div>
-
-								<h4>	<span class="mui-badge mui-badge-primary" style="font-size: 15px;">国控单位</span>南京中电熊猫液晶显示科技有限公司</h4>
-								<p>南京市 栖霞区 </p>
-							</div>
-
-						</li>
-						<li>
-							<div>aaaa</div>
-						</li>
-						<li>
-							<div>44444</div>
-						</li>
-						<li>
-							<div>555555</div>
-						</li>
-						<li>
-							<div>aaaa</div>
-						</li>-->
 					</ul>
 					<nav style="visibility: hidden;display: none;">
 						<a class="prev" href="#">Previous item</a>

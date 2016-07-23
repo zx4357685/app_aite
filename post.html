@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="custom/post.css" rel="stylesheet" />
+		<link href="css/mui.picker.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css-item/component.css" />
+		<link rel="stylesheet" type="text/css" href="css-item/fxsmall.css" />
+		<script src="js-item/modernizr.custom.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=67jMQ5DmYTe1TLMBKFUTcZAR"></script>
+		<!--<script type="text/javascript" src="js/iscroll.js"></script>-->
+		<!--<script type="text/javascript" src="js/map/customMap.js"></script>-->
+		<!--<script src="js-item/classie.js"></script>-->
+		<script type="text/javascript" src="js/map/data.js"></script>
+		<script src="js/mui.picker.js"></script>
+		<script src="js/mui.poppicker.js"></script>
+		<script>
+			//普通示例
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					var userPicker = new $.PopPicker();
+					userPicker.setData([{
+						value: 'guokong',
+						text: '国控单位'
+					}, {
+						value: 'shikong',
+						text: '市控单位'
+					}, {
+						value: 'huanbao',
+						text: '环保企业'
+					}, {
+						value: 'rencai',
+						text: '人才需求'
+					}, {
+						value: 'gaoxiao',
+						text: '高校技术'
+					}, {
+						value: 'erqi',
+						text: '二期'
+					}]);
+					var showUserPickerButton = doc.getElementById('showUserPicker');
+					var userResult = doc.getElementById('showUserPicker');
+					showUserPickerButton.addEventListener('tap', function(event) {
+						userPicker.show(function(items) {
+							userResult.innerText = JSON.stringify(items[0]["text"]).replace(/"/, '').replace(/"/, '');
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+				});
+			})(mui, document);
+		</script>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">需求发布</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<h5 class="mui-content-padded">项目类别</h5>
+				<button id='showUserPicker' class="mui-btn mui-btn-block" type='button'>请选择...</button>
+
+			</div>
+			<div class="mui-content-padded">
+				<h5 class="mui-content-padded">工程区分</h5>
+				<button id='showKindPicker' class="mui-btn mui-btn-block" type='button'>请选择...</button>
+			</div>
+			<div class="mui-content-padded">
+				<h5>工程名称</h5>
+				<input type="text" class="mui-input">
+			</div>
+			<!--<div class="mui-input-row">
+				
+					<h5>工程名称</h5>
+					<input type="text" class="mui-input-clear" placeholder="带清除按钮的输入框">
+				
+			</div>-->
+			<div class="mui-content-padded">
+				<h5>项目地址</h5>
+				
+				
+				
+				<!--<input type="text" class="mui-input">-->
+			</div>
+			
+		</div>
+	</body>
+
+</html>
