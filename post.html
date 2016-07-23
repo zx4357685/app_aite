@@ -58,7 +58,28 @@
 						});
 					}, false);
 				});
+				
 			})(mui, document);
+			var theLocationX = "";
+			var theLocationY = "";
+			mui.plusReady(function() {
+				var postLocaPage = mui.preload({
+				    url:"post_location.html",
+				    id:"post_location.html"
+				});
+				$("#postLocaPage").on('tap', function(e) {
+					mui.fire(postLocaPage, 'show', {  
+                        theLocationX: theLocationX,
+                        theLocationY: theLocationY
+                    });
+					postLocaPage.show();
+				});
+			})
+			window.addEventListener('show', function(event) {
+				//获得事件参数  
+				theLocationX = event.detail.theLocationX;
+				theLocationY = event.detail.theLocationY;
+			});
 		</script>
 
 	</head>
@@ -80,7 +101,7 @@
 			</div>
 			<div class="mui-content-padded">
 				<h5>工程名称</h5>
-				<input type="text" class="mui-input">
+				<input type="text" class="mui-input" id='postLocaPage'>
 			</div>
 			<!--<div class="mui-input-row">
 				

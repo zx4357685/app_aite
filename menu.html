@@ -37,7 +37,6 @@
 		<script src="js/app.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			 //mui初始化
-			var subpages = ['index.html', 'message.html', 'setting.html'];
 			var subpage_style = {
 				top: '0px',
 				bottom: '51px',
@@ -58,33 +57,34 @@
 			        url:'index.html',
 			        id:'index.html',
 			        styles:subpage_style
-			    },
+				}
 			];
 			
 			mui.init({
 				subpages:subpages,
-				preloadPages:[{
-			        url:'index.html',
-			        id:'index.html',
-			        styles:subpage_style
-				}],
+//				preloadPages:[{
+//			        url:'index.html',
+//			        id:'index.html',
+//			        styles:subpage_style
+//				}],
 				keyEventBind: {
 					backbutton: true,  //Boolean(默认true)关闭back按键监听
 					menubutton: true   //Boolean(默认true)关闭menu按键监听
 				},
 			})
 			
+			
 			mui.plusReady(function() {
-				mui.openWindow({
-					id: "index.html",
-					show: {
-						aniShow: 'fade-in',
-						autoShow:false
-					},
-					styles: subpage_style
-				});
+//				mui.openWindow({
+//					id: "index.html",
+//					show: {
+//						aniShow: 'fade-in',
+//						autoShow:false
+//					},
+//					styles: subpage_style
+//				});
 				account = plus.storage.getItem('account');
-				document.getElementById('bottomx').style.top = (plus.display.resolutionHeight - 50) + "px";
+//				document.getElementById('bottomx').style.top = (plus.display.resolutionHeight - 50) + "px";
 			});
 			
 			activeTab = "index.html";
@@ -123,26 +123,6 @@
 					}
 				}
 			};
-			
-			document.addEventListener("DOMContentLoaded", function() {
-			    footerOffsetTop = document.getElementById("bottomx").offsetTop;
-			});
-			var index = 0;
-			window.addEventListener("resize", function() {
-//			    if (mui.os.android) {// 修正:android下输入法让footer上移问题
-			        var offsetTop = document.getElementById("bottomx").offsetTop;
-			        if (index % 2 === 0) {
-			            if (offsetTop === 0) {
-			            	$("#bottomx").removeClass("mui-hidden");
-			            } else {
-			                if (offsetTop < footerOffsetTop) {
-			                	$("#bottomx").addClass("mui-hidden");
-			                }
-			            }
-			        }
-			        index++;
-//			    }
-			})
 		</script>
 	</body>
 

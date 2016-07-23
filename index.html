@@ -358,13 +358,16 @@
 			mui.ready(function(){
 				mui(".mui-bar-tab a")[0].classList.add('mui-active');
 			})
-			
+			var longitude = "";
+			var latitude = "";
 			mui.plusReady(function() {
 //				plus.navigator.closeSplashscreen();
 				$(".ac-pass").val(plus.storage.getItem('city'));
 				plus.geolocation.getCurrentPosition( function ( p ) {
 					var geoc = new BMap.Geocoder();
-					var point = new BMap.Point(p.coords.longitude,p.coords.latitude);
+					longitude = p.coords.longitude;
+					latitude = p.coords.latitude;
+					var point = new BMap.Point(longitude,latitude);
 					geoc.getLocation(point, function(rs){
 						var addComp = rs.addressComponents;
 //						alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
@@ -389,6 +392,11 @@
 				var settingPage = mui.preload({
 				    url:"setting.html",
 				    id:"setting.html"
+				});
+				
+				var postPage = mui.preload({
+				    url:"post.html",
+				    id:"post.html"
 				});
 				
 				window.addEventListener('show', function(event) {  
@@ -433,6 +441,13 @@
 						settingPage.show("fade-in");
 					}
 				});
+				mui('#postPage').on('tap', 'a', function(e) {
+					mui.fire(postPage, 'show', {  
+                        theLocationX: longitude,
+                        theLocationY: latitude
+                    });
+					postPage.show();
+				});
 			})
 	    </script>
 	</head>
@@ -469,9 +484,8 @@
 			<div class="mui-scroll-wrapper">
 				<div class="mui-scroll">
 					<ul class="mui-table-view">
-						
-						<li class="mui-table-view-cell">				
-							<a><span class="mui-icon mui-icon-compose"></span>需求发布</a>
+						<li class="mui-table-view-cell" id="postPage">				
+							<a href="#"><span class="mui-icon mui-icon-compose"></span>需求发布</a>
 						</li>
 						<li class="mui-table-view-cell"><a href="#">Item3</a>
 						</li>
