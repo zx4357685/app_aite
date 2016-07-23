@@ -47,18 +47,20 @@
                 $(".mui-indexed-list-item").click(function(){
                 	plus.storage.setItem("city",$(this).html());
                 	if (!Page) {  
-                        Page = plus.webview.getWebviewById('index.html');  
+                        Page = plus.webview.getWebviewById(plus.runtime.appid);
                     }  
                     mui.fire(Page, 'show', {  
                         city: $(this).html(),
                     });  
-                    mui.openWindow({ //目标页面  
-                        id: 'index.html',  
-                    }); 
+                    Page.show();
                     
                     var ws=plus.webview.currentWebview();
                     ws.hide();
-                })
+                });
+                window.addEventListener('show', function(event) {
+                    var gpsCity= event.detail.gpsCity;
+                    $("#cityGPS").html(gpsCity);
+                })  
             });
 		</script>
 	</head>
@@ -105,9 +107,9 @@
 				<div class="mui-indexed-list-inner">
 					<div class="mui-indexed-list-empty-alert">没有数据</div>
 					<ul id="cityList" class="mui-table-view">
-						<li id="cityListGPS" data-group="GPS" class="mui-table-view-divider mui-indexed-list-group">定位到的城市</li>
-						<li class='mui-table-view-cell mui-indexed-list-item'>大连</li>
-						<li id="cityListGPS" data-group="GPS" class="mui-table-view-divider mui-indexed-list-group">历史搜索</li>
+						<li data-group="GPS" class="mui-table-view-divider mui-indexed-list-group">定位到的城市</li>
+						<li class='mui-table-view-cell mui-indexed-list-item' id="cityGPS">宜兴</li>
+						<li data-group="GPS" class="mui-table-view-divider mui-indexed-list-group">历史搜索</li>
 						<li class='mui-table-view-cell mui-indexed-list-item'>哈尔滨</li>
 						<li class='mui-table-view-cell mui-indexed-list-item'>大连</li>
 						<li class='mui-table-view-cell mui-indexed-list-item'>沈阳</li>
