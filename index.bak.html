@@ -1,0 +1,486 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="custom/index-scroll.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css-item/component.css" />
+		<link rel="stylesheet" type="text/css" href="css-item/fxsmall.css" />
+		<script src="js-item/modernizr.custom.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=twFyhU6GYnTbArkZMyDcerW5dm8MdxU8"></script>
+		<script type="text/javascript" src="js/iscroll.js"></script>
+		<!--<script type="text/javascript" src="js/map/customMap.js"></script>-->
+		<script src="js-item/classie.js"></script>
+		<script type="text/javascript" src="js/map/data.js"></script>
+		<style>
+			.itemDiv {
+				box-shadow: 0 .1em .1em 0 rgba(0, 0, 0, .1);
+				border: solid 1px rgba(0, 0, 0, .2);
+				border-bottom: 1px solid rgba(0, 0, 0, .3);
+				display: block;
+				width: 99%;
+				height: 110px;
+				text-align: left;
+				/*line-height: 20px;*/
+				padding: 2px;
+				margin-top: 4px;
+			}
+			
+			.item-img {
+				float: left;
+				width: 100px;
+				height: 100px;
+				/*border: #6641E2 1px solid;*/
+				margin-right: 5px;
+			}
+			
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #619C00;
+			}
+		</style>
+		<script type="text/javascript">
+			mui.init({
+				keyEventBind: {
+					backbutton: true, //Boolean(默认true)关闭back按键监听
+					menubutton: true //Boolean(默认true)关闭menu按键监听
+				},
+				gestureConfig: {
+					swipe: true, //默认为true
+				}
+			})
+			var first = null;
+			mui.back = function() {
+				if(!first) {
+					first = new Date().getTime();
+					mui.toast('再按一次退出应用');
+					setTimeout(function() {
+						first = null;
+					}, 1000);
+				} else {
+					if(new Date().getTime() - first < 1000) {
+						plus.runtime.quit();
+					}
+				}
+			};
+			var point = "北京";
+			var allpoint = guangzhou1.concat(guangzhou2);
+			var map = "";
+			var myGeo = "";
+			var icon = ""
+			var myIcon = new BMap.Icon("images/map/location_all.png", new BMap.Size(75, 35));
+			var support = {
+					animations: Modernizr.cssanimations
+				},
+				animEndEventNames = {
+					'WebkitAnimation': 'webkitAnimationEnd',
+					'OAnimation': 'oAnimationEnd',
+					'msAnimation': 'MSAnimationEnd',
+					'animation': 'animationend'
+				},
+				// animation end event name
+				animEndEventName = animEndEventNames[Modernizr.prefixed('animation')],
+				//				//		effectSel = document.getElementById('fxselect'),
+				component = "",
+				items = "",
+				current = 0,
+				itemsCount = "",
+				nav = "",
+				navNext = "",
+				navPrev = "",
+				isAnimating = false;
+			$(document).ready(function() {
+				point = "广州市";
+				map = new BMap.Map("allmap");
+				myGeo = new BMap.Geocoder();
+				map.centerAndZoom(point, 9);
+				myIcon = new BMap.Icon("images/map/location_all.png", new BMap.Size(75, 35));
+				for(key in allpoint) {
+					var add = allpoint[key];
+					geocodeSearch1(add, key, point);
+				}
+				setInit();
+				myScroll = new IScroll('#wrapper', {
+					scrollX: true,
+					scrollY: false,
+					mouseWheel: true,
+					click: true
+				});
+				document.addEventListener('touchmove', function(e) {
+					e.preventDefault();
+				}, false);
+				$("#scroller a").click(function() {
+					$("#scroller li").removeClass('testClass');
+					$(this).parent('li').addClass('testClass');
+					var str = $(this).parent('li').attr("id");
+					$("#itemwrap").html("");
+					//		loadMap(str);
+					switch(str) {
+						case 'all':
+							point = "广州市";
+							map = new BMap.Map("allmap");
+							myGeo = new BMap.Geocoder();
+							map.centerAndZoom(point, 9);
+							myIcon = new BMap.Icon("images/map/location_all.png", new BMap.Size(75, 35));
+							allpoint = guangzhou1.concat(guangzhou2);
+							setInit();
+							for(key in allpoint) {
+								var add = allpoint[key];
+								geocodeSearch1(add, key, point);
+							}
+							break;
+						case 'guokong':
+							//							console.log('guokong');
+							point = $.trim($(".ac-pass").val());
+							point = "哈尔滨市";
+							map = new BMap.Map("allmap");
+							myGeo = new BMap.Geocoder();
+							map.centerAndZoom(point, 10);
+							myIcon = new BMap.Icon("images/map/icon-04.png", new BMap.Size(75, 35));
+							allpoint = haerbin;
+							setInit();
+							for(key in allpoint) {
+								var add = allpoint[key];
+								geocodeSearch1(add, key, point);
+							}
+							break;
+						case 'shikong':
+							//							console.log('guokong');
+							point = $.trim($(".ac-pass").val());
+							point = "大庆市";
+							map = new BMap.Map("allmap");
+							myGeo = new BMap.Geocoder();
+							map.centerAndZoom(point, 12);
+							myIcon = new BMap.Icon("images/map/icon-05.png", new BMap.Size(75, 35));
+							allpoint = daqing;
+							setInit();
+							for(key in allpoint) {
+								var add = allpoint[key];
+								geocodeSearch1(add, key, point);
+							}
+							break;
+						case 'huanbao':
+							//							console.log('guokong');
+							point = $.trim($(".ac-pass").val());
+							point = "南京市";
+							map = new BMap.Map("allmap");
+							myGeo = new BMap.Geocoder();
+							map.centerAndZoom(point, 10);
+							myIcon = new BMap.Icon("images/map/icon-02.png", new BMap.Size(75, 35));
+							allpoint = nanjing;
+							setInit();
+							for(key in allpoint) {
+								var add = allpoint[key];
+								geocodeSearch1(add, key, point);
+							}
+							break;
+					}
+				});
+				var elem = document.getElementById("testLeft");
+				elem.addEventListener("swipeleft", function() {
+					console.log("你正在向左滑动");
+					navigate('next');
+				});
+				elem.addEventListener("swiperight", function() {
+					console.log("你正在向right滑动");
+					navigate('prev');
+				});
+				$(".point").click(function() {
+					var cityList = mui.preload({
+						url: "cityList.html",
+						id: "cityList.html"
+					});
+					mui.fire(cityList, 'show', {
+						gpsCity: gpsCity,
+					});
+					cityList.show("slide-in-top", 350);
+				});
+				mui('#postPage').on('tap', 'a', function(e) {
+					var postPage = mui.preload({
+						url: "post.html",
+						id: "post.html"
+					});
+					mui.fire(postPage, 'show', {
+						theLocationX: longitude,
+						theLocationY: latitude
+					});
+					postPage.show();
+				});
+				var elem = document.getElementById("testLeft");
+				elem.addEventListener("click", function() {
+					mui.openWindow({
+						url: 'info.html'
+					});
+				});
+			});
+
+			function setInit() {
+				component = document.getElementById('component'),
+					items = component.querySelector('ul.itemwrap').children,
+					current = 0,
+					//				itemsCount = items.length,
+					itemsCount = allpoint.length,
+					nav = component.querySelector('nav'),
+					navNext = nav.querySelector('.next'),
+					navPrev = nav.querySelector('.prev'),
+					isAnimating = false;
+			}
+
+			function geocodeSearch1(add, id, point) {
+				if(id == 0) {
+					myGeo.getPoint(add, function(point) {
+						if(point) {
+							var str = '<li class="current" value="';
+							//							str += add;
+							str += point.lng + "_" + point.lat;
+							str += '" id=';
+							str += add;
+							str += '><div class="itemDiv"><div class="item-img"><img src = "images/map/aitejpg.jpg"/></div>';
+							str += '<h4 style="font-size:15px"><span class="mui-badge mui-badge-primary" style="font-size: 15px;">污水</span>';
+							str += add + '</h4><p style="text-align:left"><span class="mui-badge">简介</span>XXX有限公司成立于2003年，公司位于大连开发区双D港，占地17000平方米。<p/></div></li>';
+							$("#itemwrap").append(str);
+							var marker = new BMap.Marker(point, {
+								icon: myIcon
+							});
+							marker.setAnimation(BMAP_ANIMATION_DROP);
+							marker.addEventListener("click", attribute);
+							map.addOverlay(marker);
+						}
+					});
+				} else {
+					myGeo.getPoint(add, function(point) {
+						if(point) {
+							var str = '<li value="';
+							str += point.lng + "_" + point.lat;
+							str += '" id=';
+							str += add;
+							str += '><div class="itemDiv"><div class="item-img"><img src = "images/map/aitejpg.jpg"/></div>';
+							str += '<h4 style="font-size:15px"><span class="mui-badge mui-badge-danger" style="font-size:15px">土壤</span>';
+							str += add + '</h4><p>坐标X：'
+							str += point.lng + '</p></div></li>';
+							$("#itemwrap").append(str);
+							console.log(str);
+							//							var myIcon = new BMap.Icon("images/map/icon-06.png", new BMap.Size(75, 35));
+							var marker = new BMap.Marker(point, {
+								icon: myIcon
+							});
+							marker.setAnimation(BMAP_ANIMATION_DROP);
+							marker.addEventListener("click", attribute);
+							map.addOverlay(marker);
+						}
+					});
+				}
+			}
+
+			function attribute(e) {
+				var p = e.target;
+				$("#itemwrap li").each(function(index) {
+					var point = $(this).attr('value');
+					var arr = point.split('_');
+					//					console.log(arr);
+					if(p.getPosition().lng == arr[0] && p.getPosition().lat == arr[1]) {
+						console.log(index);
+						navigate(index);
+					}
+				})
+			}
+
+			function navigate(dir) {
+				component.className = component.className.replace(/\bfx.*?\b/g, '');
+				classie.addClass(component, "fxShinkansen");
+				if(isAnimating) return false;
+				isAnimating = true;
+				var cntAnims = 0;
+				var currentItem = items[current];
+				if(dir === 'next') {
+					current = current < itemsCount - 1 ? current + 1 : 0;
+				} else if(dir === 'prev') {
+					current = current > 0 ? current - 1 : itemsCount - 1;
+				} else {
+					current = dir;
+				}
+				//				console.log(current);
+				var nextItem = items[current];
+				var onEndAnimationCurrentItem = function() {
+					this.removeEventListener(animEndEventName, onEndAnimationCurrentItem);
+					classie.removeClass(this, 'current');
+					classie.removeClass(this, dir === 'next' ? 'navOutNext' : 'navOutPrev');
+					++cntAnims;
+					if(cntAnims === 2) {
+						isAnimating = false;
+					}
+				}
+				var onEndAnimationNextItem = function() {
+					this.removeEventListener(animEndEventName, onEndAnimationNextItem);
+					classie.addClass(this, 'current');
+					classie.removeClass(this, dir === 'next' ? 'navInNext' : 'navInPrev');
+					++cntAnims;
+					if(cntAnims === 2) {
+						isAnimating = false;
+					}
+				}
+				if(support.animations) {
+					currentItem.addEventListener(animEndEventName, onEndAnimationCurrentItem);
+					nextItem.addEventListener(animEndEventName, onEndAnimationNextItem);
+				} else {
+					onEndAnimationCurrentItem();
+					onEndAnimationNextItem();
+				}
+				classie.addClass(currentItem, dir === 'next' ? 'navOutNext' : 'navOutPrev');
+				classie.addClass(nextItem, dir === 'next' ? 'navInNext' : 'navInPrev');
+			}
+			mui.ready(function() {
+				mui(".mui-bar-tab a")[0].classList.add('mui-active');
+			})
+			var longitude = "";
+			var latitude = "";
+			mui.plusReady(function() {
+				//				plus.navigator.closeSplashscreen();
+				$(".ac-pass").val(plus.storage.getItem('city'));
+				plus.geolocation.getCurrentPosition(function(p) {
+					var geoc = new BMap.Geocoder();
+					longitude = p.coords.longitude;
+					latitude = p.coords.latitude;
+					var point = new BMap.Point(longitude, latitude);
+					geoc.getLocation(point, function(rs) {
+						var addComp = rs.addressComponents;
+						gpsCity = addComp.city;
+					});
+				}, function(e) {
+					alert("Geolocation error: " + e.message);
+				});
+
+				var settingPage = mui.preload({
+					url: "setting.html",
+					id: "setting.html"
+				});
+				var faxianPage = mui.preload({
+					url: "faxian_main.html",
+					id: "faxian_main.html"
+				});
+				window.addEventListener('show', function(event) {
+					//获得事件参数  
+					var city = event.detail.city;
+					$("#myla").html(city);
+				})
+
+				mui('.mui-bar-tab').on('tap', 'a', function(e) {
+					var targetTab = this.getAttribute('href');
+					if(targetTab == "index.html") {
+						return;
+					}
+					// 在Android5以上设备，如果默认没有开启硬件加速，则强制设置开启
+					if(!plus.webview.defaultHardwareAccelerated() && parseInt(plus.os.version) >= 5) {
+						styles.hardwareAccelerated = true;
+					}
+					if(targetTab == "faxian_main.html") {
+						faxianPage.show("fade-in");
+					}
+					if(targetTab == "setting.html") {
+						settingPage.show("fade-in");
+					}
+				});
+			})
+		</script>
+	</head>
+
+	<body>
+		<nav class="mui-bar mui-bar-tab" id='bottomx'>
+			<a id="defaultTab" class="mui-tab-item" href="index.html" style='color: #619C00;'>
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" href="faxian_main.html">
+				<span class="mui-icon mui-icon-eye"></span></span>
+				<span class="mui-tab-label">发现</span>
+			</a>
+			<a class="mui-tab-item" href="setting.html">
+				<span class="mui-icon mui-icon-person"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+		<div class="wrap" style="overflow: hidden;">
+			<div class="mui-row">
+				<div class="mui-col-xs-2" align="center">
+					<i class="point"></i>
+					<label id="myla" style="cursor: pointer;">大连</label>
+				</div>
+				<div class="mui-col-xs-9">
+					<input type="text" class="ac-pass" value="搜索" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'search';}"></div>
+				<div class="mui-col-xs-1" style="line-height: 45px;" align="center">
+					<a id="menu" style="line-height: 40px" class="mui-action-menu mui-icon mui-icon-bars mui-pull-right" href="#topPopover"></a>
+				</div>
+				<!--右上角弹出菜单-->
+				<div id="topPopover" class="mui-popover">
+					<div class="mui-popover-arrow"></div>
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell" id="postPage">
+									<a href="#"><span class="mui-icon mui-icon-compose"></span>需求发布</a>
+								</li>
+								<li class="mui-table-view-cell">
+									<a href="#">Item3</a>
+								</li>
+
+							</ul>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			<div id="wrapper" class="twitter_widget_1">
+				<div id="scroller">
+					<ul>
+						<li class="testClass" id="all">
+							<a href="javascript:void(0)"> 全部</a>
+						</li>
+						<li id="guokong"><span class="circle" style="color: #2AC845">●</span>
+							<a href="javascript:void(0)">国控单位</a>
+						</li>
+						<li id="shikong"><span class="circle" style="color: #0062CC">●</span>
+							<a href="javascript:void(0)">市控单位</a>
+						</li>
+						<li id="huanbao"><span class="circle" style="color: #EC971F">●</span>
+							<a href="javascript:void(0)">环保企业</a>
+						</li>
+						<li id="rencaixuqiu"><span class="circle" style="color: #6641E2">●</span>
+							<a href="javascript:void(0)">人才需求</a>
+						</li>
+						<li id="gaoxiaojishu"><span class="circle" style="color: #2187E7">●</span>
+							<a href="javascript:void(0)">高校技术</a>
+						</li>
+						<li id="erqi"><span class="circle" style="color: #CF2D28">●</span>
+							<a href="javascript:void(0)">二期功能</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="" style="margin-top: 10px">
+				<div style="width: 100%; height: 342px;" id="allmap"></div>
+			</div>
+			<div id="result"></div>
+
+			<div style="text-align: center;margin-top: 5px;background: #FFFFFF;" id="testLeft">
+				<div id="component" class="component component-small" style="height:125px;margin-bottom: 10px;">
+					<ul class="itemwrap" id="itemwrap">
+					</ul>
+					<nav style="visibility: hidden;display: none;">
+						<a class="prev" href="#">Previous item</a>
+						<a class="next" href="#">Next item</a>
+					</nav>
+				</div>
+			</div>
+
+		</div>
+
+	</body>
+
+</html>

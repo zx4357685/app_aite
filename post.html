@@ -11,18 +11,14 @@
 		<link href="custom/post.css" rel="stylesheet" />
 		<link href="css/mui.picker.css" rel="stylesheet" />
 		<link href="css/mui.poppicker.css" rel="stylesheet" />
-		<link rel="stylesheet" type="text/css" href="css-item/component.css" />
-		<link rel="stylesheet" type="text/css" href="css-item/fxsmall.css" />
-		<script src="js-item/modernizr.custom.js"></script>
 		<script src="js/mui.min.js"></script>
 		<script src="js/jquery-1.11.1.min.js"></script>
-		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=67jMQ5DmYTe1TLMBKFUTcZAR"></script>
-		<!--<script type="text/javascript" src="js/iscroll.js"></script>-->
-		<!--<script type="text/javascript" src="js/map/customMap.js"></script>-->
-		<!--<script src="js-item/classie.js"></script>-->
 		<script type="text/javascript" src="js/map/data.js"></script>
 		<script src="js/mui.picker.js"></script>
 		<script src="js/mui.poppicker.js"></script>
+		<!--<script src="../js/mui.min.js "></script>-->
+		<!--<script src="js/mui.view.js "></script>-->
+
 		<script>
 			//普通示例
 			(function($, doc) {
@@ -58,28 +54,8 @@
 						});
 					}, false);
 				});
-				
+
 			})(mui, document);
-			var theLocationX = "";
-			var theLocationY = "";
-			mui.plusReady(function() {
-				var postLocaPage = mui.preload({
-				    url:"post_location.html",
-				    id:"post_location.html"
-				});
-				$("#postLocaPage").on('tap', function(e) {
-					mui.fire(postLocaPage, 'show', {  
-                        theLocationX: theLocationX,
-                        theLocationY: theLocationY
-                    });
-					postLocaPage.show();
-				});
-			})
-			window.addEventListener('show', function(event) {
-				//获得事件参数  
-				theLocationX = event.detail.theLocationX;
-				theLocationY = event.detail.theLocationY;
-			});
 		</script>
 
 	</head>
@@ -87,37 +63,38 @@
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">需求发布</h1>
+			<h1 class="mui-title">发表主题</h1>
+			<span id="submit" class="mui-btn mui-btn-success mui-pull-right" onclick="window.location.href='faxian_main.html'">
+				发布
+			</span>
 		</header>
 		<div class="mui-content">
 			<div class="mui-content-padded">
-				<h5 class="mui-content-padded">项目类别</h5>
+				<h5 class="mui-content-padded">主题类别</h5>
 				<button id='showUserPicker' class="mui-btn mui-btn-block" type='button'>请选择...</button>
+			</div>
+			<div class="mui-content-padded">
+				<h5 class="mui-content-padded">标题</h5>
+				<input type="text" class="mui-input" id="postLocaPage" style="margin: 3px;" placeholder="标题...">
 
 			</div>
 			<div class="mui-content-padded">
-				<h5 class="mui-content-padded">工程区分</h5>
-				<button id='showKindPicker' class="mui-btn mui-btn-block" type='button'>请选择...</button>
+				<h5 class="mui-content-padded">内容</h5>
+				<div class="mui-input-row" style="margin: 3px;">
+					<textarea id="textarea" rows="11" placeholder="内容"></textarea>
+				</div>
+
 			</div>
 			<div class="mui-content-padded">
-				<h5>工程名称</h5>
-				<input type="text" class="mui-input" id='postLocaPage'>
+				<h5 class="mui-content-padded">图片 (选填,提供问题截图,最多可上传3个页面)</h5>
+
 			</div>
-			<!--<div class="mui-input-row">
-				
-					<h5>工程名称</h5>
-					<input type="text" class="mui-input-clear" placeholder="带清除按钮的输入框">
-				
-			</div>-->
-			<div class="mui-content-padded">
-				<h5>项目地址</h5>
-				
-				
-				
-				<!--<input type="text" class="mui-input">-->
+
+			<div id="image-list" class="feedback row image-list" style="margin: 12px;">
+					
 			</div>
-			
+
 		</div>
 	</body>
-
+	<script src="js/feedback-page.js"></script>
 </html>

@@ -1,0 +1,371 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+		<script src="js/companyInfo.js"></script>
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/jquery.autosize.js"></script>
+		<style>
+			.top {
+				margin-top: 60px;
+			}
+			
+			.info {
+				margin: 20px;
+				border-left: 10px solid #00A843;
+				background-color: #FFFFFF;
+			}
+			
+			.info .title {
+				padding-top: 10px;
+				padding-bottom: 10px;
+			}
+			
+			.info> .title> span {
+				margin-left: 10px;
+				color: #00A843;
+				font-weight: bold;
+			}
+			
+			.info .title p {
+				margin-left: 10px;
+				color: #9C9997;
+			}
+			
+			.techType {
+				border-spacing: 10px;
+				border-collapse: separate;
+				color: #FFFFFF;
+			}
+			
+			.techType td {
+				background-color: #518694;
+			}
+			
+			.info .title .infoAbout p {
+				margin: 0 0 0 15px;
+				color: #518694;
+				font-weight: bold;
+			}
+			
+			.infoAbout a {
+				color: #518694;
+				border-bottom: 1px solid #000000
+			}
+			
+			@media (min-width:300px) {
+				.mui-col-sm-3 {
+					width: 30%;
+				}
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn) {
+				white-space: normal;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				padding-top: 2px;
+				padding-bottom: 2px;
+			}
+			
+			footer {
+				position: fixed;
+				width: 100%;
+				height: 50px;
+				min-height: 50px;
+				border-top: solid 1px #bbb;
+				left: 0px;
+				bottom: 0px;
+				overflow: hidden;
+				padding: 0px 10px;
+				background-color: #ffffff;
+			}
+			
+			.footer-left {
+				position: absolute;
+				width: 50px;
+				height: 50px;
+				left: 0px;
+				bottom: 0px;
+				text-align: center;
+				vertical-align: middle;
+				line-height: 100%;
+				/*padding: 12px 0px;*/
+			}
+			
+			.footer-right {
+				position: absolute;
+				width: 55px;
+				height: 37px;
+				right: 7px;
+				bottom: 6px;
+				text-align: center;
+				vertical-align: middle;
+				line-height: 100%;
+				padding: 11px 2px;
+				display: inline-block;
+			}
+			
+			.footer-center {
+				height: 100%;
+				padding: 3px 0px;
+			}
+			
+			.footer-center [class*=input] {
+				width: 90%;
+				height: 100%;
+				border-radius: 5px;
+			}
+			
+			.footer-center .input-text {
+				background: #fff;
+				border: solid 1px #ddd;
+				padding: 10px !important;
+				font-size: 16px !important;
+				line-height: 18px !important;
+				font-family: verdana !important;
+				overflow: hidden;
+			}
+			
+			#msg-text {
+				border: 0;
+				border-bottom: 1px solid #C0C0C0;
+			}
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+			
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			
+			li .oa-contact-avatar {
+				width: 45px;
+			}
+			
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			
+			.oa-contact-content {
+				width: 100%;
+			}
+			
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			
+			.oa-contact-name,
+			oa-contact-position {
+				float: left;
+			}
+		</style>
+	</head>
+
+	<body style="overflow: hidden;">
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.ready(function() {
+				companyId = GetQueryString('id');
+				companyInfo = companyInfos[companyId];
+				var projectsHtml = "";
+				var technologyHtml = "";
+				$.each(companyInfo.projects, function(index, item) {
+					projectsHtml += "<li class='mui-table-view-cell mui-media' onclick='window.location.href=\"info.html\"'>";
+					projectsHtml += "<a href='javascript:;'>";
+					projectsHtml += "<img class='mui-media-object mui-pull-left' src='" + item.img + "'>";
+					projectsHtml += "<div class='mui-media-body'>";
+					projectsHtml += "<span style='font-size:15px'>" + item.name + "</span>";
+					projectsHtml += "<p class='mui-ellipsis' style='margin-left:0'>" + item.companyInfo + "</p>";
+					projectsHtml += "</div></a></li>";
+				});
+				$("#projectList ul").append(projectsHtml);
+				$.each(companyInfo.technologies, function(index, item) {
+					technologyHtml += "<li class='mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3' style='background-color: #518694;margin:5px'>";
+					technologyHtml += "<a href='#' style='color:#FFFFFF;margin-left: -16px;margin-right: -16px;'>";
+					technologyHtml += item.name;
+					technologyHtml += "</a></li>";
+				});
+				$("#technologyList ul").append(technologyHtml);
+				$("#companyInfo p").append(companyInfo.name + "，" + companyInfo.info);
+				$("#msg-text").autosize();
+				var floor = 5;
+				$("#report").click(function() {
+					html = '<li class="mui-table-view-cell">';
+					html += '<div class="mui-slider-cell">';
+					html += '<div class="oa-contact-cell mui-table">';
+					html += '<div class="oa-contact-avatar mui-table-cell">';
+					html += '<img src="images/60x60.gif" width="35px" />';
+					html += '</div>';
+					html += '<div class="oa-contact-content mui-table-cell">';
+					html += '<div class="mui-clearfix">';
+					html += '<h5 class="oa-contact-name">史强</h5>';
+					html += '<span class="oa-contact-position mui-h6">';
+					html += floor + '楼</span></div>';
+					html += '<p class="oa-contact-email mui-h6">';
+					html += $("#msg-text").val();
+					html += '</p></div></div></div></li>';
+					floor++;
+					$("#comment").append(html);
+					$("#msg-text").val('');
+					$("#msg-text").height(36);
+					$("footer").height(37);
+					setTimeout(function() {
+						var wHeight = $(window).height(); //窗口高度
+						var botHeight = $("footer").height(); //底部高度
+						var countHeight = wHeight - botHeight; //正文高度计算
+						$(".mui-content").height(countHeight);
+						//						$('.mui-content').scrollTop( $('.mui-content')[0].scrollHeight );
+						$('.mui-content').animate({
+							scrollTop: $('.mui-content')[0].scrollHeight
+						}, 200);
+					}, 400);
+
+				})
+			})
+
+			function GetQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) return unescape(r[2]);
+				return null;
+			}
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">企业交流</h1>
+		</header>
+		<div class="mui-content" style="overflow-y: auto;padding-top:0">
+			<div class="top">
+				<div class="info">
+					<div class="title" id="projectList">
+						<span style="border-bottom: 1px solid #000000;">
+					做过的项目
+				</span>
+						<ul class="mui-table-view">
+						</ul>
+					</div>
+				</div>
+				<div class="info">
+					<div class="title" id="technologyList">
+						<span style="border-bottom: 1px solid #000000;">
+					擅长的技术
+				</span>
+						<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin:15px 5px;width:98%;background-color:#FFFFFF;border: 0;">
+						</ul>
+					</div>
+				</div>
+				<div class="info">
+					<div class="title" id="companyInfo">
+						<span style="border-bottom: 1px solid #000000;">
+					企业介绍
+				</span>
+						<p style="margin-top:5px">
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<hr>
+
+			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id='comment'>
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-cell">
+						<div class="oa-contact-cell mui-table">
+							<div class="oa-contact-avatar mui-table-cell">
+								<img src="images/60x60.gif" width="35px" />
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h5 class="oa-contact-name">叶文洁</h5>
+									<span class="oa-contact-position mui-h6">1楼</span>
+								</div>
+								<p class="oa-contact-email mui-h6">
+									我是评论我是评论我是评论
+								</p>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-cell">
+						<div class="oa-contact-cell mui-table">
+							<div class="oa-contact-avatar mui-table-cell">
+								<img src="images/60x60.gif" width="35px" />
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h5 class="oa-contact-name">艾AA</h5>
+									<span class="oa-contact-position mui-h6">2楼</span>
+								</div>
+								<p>
+									我是评论我是评论我是评论
+								</p>
+							</div>
+						</div>
+					</div>
+				</li>
+
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-cell">
+						<div class="oa-contact-cell mui-table">
+							<div class="oa-contact-avatar mui-table-cell">
+								<img src="images/60x60.gif" width="35px" />
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h5 class="oa-contact-name">云天明</h5>
+									<span class="oa-contact-position mui-h6">3楼</span>
+								</div>
+								<p class="oa-contact-email mui-h6">
+									我是评论我是评论我是评论
+								</p>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-cell">
+						<div class="oa-contact-cell mui-table">
+							<div class="oa-contact-avatar mui-table-cell">
+								<img src="images/60x60.gif" width="35px" />
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h5 class="oa-contact-name">史强</h5>
+									<span class="oa-contact-position mui-h6">4楼</span>
+
+								</div>
+								<p class="oa-contact-email mui-h6">
+									我是评论我是评论我是评论
+								</p>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<footer>
+			<div class="footer-center">
+				<textarea id='msg-text' type="text" class='input-text' placeholder="说点什么吧..." style="height:40px;max-height: 100px;overflow: hidden; clip:rect()"></textarea>
+			</div>
+			<div class="footer-right mui-btn mui-btn-primary" id="report">
+				发表
+			</div>
+		</footer>
+	</body>
+
+</html>

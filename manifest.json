@@ -3,7 +3,7 @@
 	"id": "H507D945B",/*必选，应用的标识*/
 	"name": "aite_app",/*必选，应用名称*/
 	"version": {
-		"name": "1.4",/*必选，版本名称*/
+		"name": "1.33",/*必选，版本名称*/
 		"code": ""
 	},
 	"description": "",/*可选，应用描述信息*/
@@ -11,7 +11,7 @@
 		"72": "icon.png"
 	},
 	"fullscreen":false,
-	"launch_path": "index.html",/*必选，应用的入口页面，默认为根目录下的index.html；也可以是网络地址，网络地址必须以http://或https://开头*/
+	"launch_path": "index_v02.html",/*必选，应用的入口页面，默认为根目录下的index.html；也可以是网络地址，网络地址必须以http://或https://开头*/
 	"developer": {
 		"email": "",/*可选，开发者名称*/
 		"name": "",/*可选，开发者邮箱地址*/
@@ -30,9 +30,7 @@
 		"Events": {
 			"description": "应用扩展事件"
 		},
-		"File": {
-			"description": "访问本地文件系统"
-		},
+		"File": {},
 		"Gallery": {
 			"description": "访问系统相册"
 		},
@@ -48,9 +46,7 @@
 		"Speech": {
 			"description": "管理语音识别插件"
 		},
-		"Zip": {
-			"description": "文件压缩与解压缩"
-		},
+		
 		"Webview":{
 			"description": "窗口管理"
 		},
@@ -59,7 +55,7 @@
 		},
 		"Navigator":{
 			"description": "浏览器信息"
-		},"Barcode":{},"Uploader":{},"Contacts":{},"Proximity":{},"Messaging":{},"NativeObj":{},"Downloader":{},"Invocation":{},"Orientation":{},"Geolocation":{},"Accelerometer":{}
+		},"Uploader":{},"Contacts":{},"Proximity":{},"Messaging":{},"NativeObj":{},"Downloader":{},"Invocation":{},"Orientation":{},"Geolocation":{},"Accelerometer":{}
 	},
 	"plus": {
 		"popGesture": "close",/*设置应用默认侧滑返回关闭Webview窗口，none为无侧滑返回功能，hide为侧滑隐藏Webview窗口。参考ask.dcloud.net.cn/article/102*/
@@ -70,7 +66,7 @@
 		"runmode": "liberate",/*两个值，liberate或normal，前者在应用安装时释放资源，后者不需要释放资源*/
 		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
 		"distribute": {"plugins":{"maps":{}},
-			"debug": false,/*可选，是否为debug模式，可取值：true表示debug模式运行，false表示release模式运行，默认值为false*/
+			"debug": true,/*可选，是否为debug模式，可取值：true表示debug模式运行，false表示release模式运行，默认值为false*/
 			"apple": {
 				"appid": "",/*iOS必选，苹果开发网站申请的appid，如com.dheaven.hbuilder*/
 				"mobileprovision": "",/*iOS必选，打包配置文件*/
@@ -84,7 +80,7 @@
 				"keystore": "",/*Android必选，打包证书文件*/
 				"password": "",/*Android必选，打包证书密码*/
 				"aliasname": "",/*Android必选，打包证书别名*/
-				"permissions": ["<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-feature android:name=\"android.hardware.camera.autofocus\"/>","<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>","<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>","<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>","<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.SEND_SMS\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.RECEIVE_USER_PRESENT\"/>","<uses-permission android:name=\"android.permission.WRITE_SMS\"/>","<uses-permission android:name=\"android.permission.READ_SMS\"/>"]
+				"permissions": ["<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>","<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>","<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.SEND_SMS\"/>","<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.RECEIVE_USER_PRESENT\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>","<uses-permission android:name=\"android.permission.WRITE_SMS\"/>","<uses-permission android:name=\"android.permission.READ_SMS\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>"]
 				/*使用 Native.js 调用原生安卓 API 需要申请的系统权限，用户可以添加多个权限的字符串*/
 			},
 			"orientation": ["portrait-primary"],/*必选*/
@@ -159,10 +155,36 @@
 					"fonts/mui.ttf",
 					"css/mui.min.css",
 					"js/update.js",
-					"list.html"
+					"list.html",
+					"custom/index-scroll.css",
+					"js-item/modernizr.custom.js",
+					"js/jquery-1.11.1.min.js",
+					"css-item/fxsmall.css",
+					"js-item/classie.js",
+					"js/iscroll.js",
+					"css-item/component.css",
+					"js/map/data.js",
+					"images/map/aitejpg.jpg",
+					"images/map/location_all.png",
+					"images/location.png",
+					"images/search.png",
+					"images/map/icon-02.png",
+					"images/map/icon-04.png",
+					null,
+					"info.html",
+					"images/map/icon-05.png",
+					"images/map/icon-07.png",
+					"images/map/icon-03.png",
+					"images/map/factory.png"
 				],
 				"refer": [
-					"index-menu.html"
+					"index-menu.html",
+					"cityList.html",
+					"setting.html",
+					"post.html",
+					"faxian_main.html",
+					"first.html",
+					"index.html"
 				],
 				"priority": 0
 			},
@@ -1006,19 +1028,318 @@
 				],
 				"refer": [],
 				"priority": 0
+			},
+			"cityList.html": {
+				"resources": [
+					"css/mui.indexedlist.css",
+					"js/cities.js",
+					"js/mui.indexedlist.js",
+					"js/jquery-1.11.1.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"setting.html": {
+				"resources": [
+					"js/checkUpdate.js",
+					"images/setting/fuxiaolin.jpg",
+					"images/setting/background.jpg",
+					"fonts/mui.ttf",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"index.html",
+					"faxian_main.html",
+					"setting.html",
+					"personalInfo.html"
+				],
+				"priority": 0
+			},
+			"post.html": {
+				"resources": [
+					"js/mui.picker.js",
+					"custom/post.css",
+					"js/mui.poppicker.js",
+					"css/mui.poppicker.css",
+					"css/mui.picker.css",
+					"js-item/modernizr.custom.js",
+					"js/jquery-1.11.1.min.js",
+					"js/mui.min.js",
+					"css-item/fxsmall.css",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css-item/component.css",
+					"js/map/data.js",
+					"js/feedback-page.js",
+					"images/iconfont-tianjia.png"
+				],
+				"refer": [
+					"post_location.html",
+					"faxian_main.html"
+				],
+				"priority": 0
+			},
+			"faxian_main.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"images/cbd.jpg",
+					"images/muwu.jpg",
+					"js/mui.pullToRefresh.material.js",
+					"images/shuijiao.jpg",
+					"js/jquery-1.11.1.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"images/pen2.png",
+					"js/map/data.js",
+					"images/info/2.png",
+					"images/info/1.png",
+					"images/info/3.png",
+					"images/info/0.png",
+					"images/info/22.png",
+					"images/info/21.png",
+					"images/info/20.png"
+				],
+				"refer": [
+					"index.html",
+					"faxian_main.html",
+					"setting.html",
+					"faxian_detail.html",
+					"post.html"
+				],
+				"priority": 0
+			},
+			"info.html": {
+				"resources": [
+					"js/info.js",
+					"images/info/zhongliangmaiya.jpg",
+					"js/jquery-1.11.1.min.js",
+					"js/mui.min.js",
+					"envPersion.html",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"images/60x60.gif",
+					"images/info/1.png",
+					"images/info/2.png",
+					"images/info/3.png",
+					"images/info/10.png",
+					"images/info/12.png",
+					"images/info/11.png",
+					"js/jquery.autosize.js",
+					"images/info/0.png"
+				],
+				"refer": [
+					"envCompany.html",
+					"faxian_detail.html"
+				],
+				"priority": 0
+			},
+			"post_location.html": {
+				"resources": [
+					"js/jquery-1.11.1.min.js",
+					"js/mui.min.js",
+					"custom/post.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"images/iconfont-tianjia.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"envPersion.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"images/setting/fuxiaolin.jpg",
+					"images/setting/background.jpg",
+					"images/envPersion/envPersionBack.jpg",
+					"images/shuijiao.jpg",
+					"js/jquery-1.11.1.min.js",
+					"js/persionInfo.js",
+					"images/info/zhongliangmaiya.jpg",
+					null,
+					"js/personInfo.js"
+				],
+				"refer": [
+					"info.html"
+				],
+				"priority": 0
+			},
+			"first.html": {
+				"resources": [
+					"custom/index-scroll.css",
+					"js-item/modernizr.custom.js",
+					"css-item/fxsmall.css",
+					"js-item/classie.js",
+					"js/iscroll.js",
+					"css-item/component.css",
+					"images/map/location_all.png",
+					"images/location.png",
+					"images/search.png",
+					"js/jquery-1.11.1.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/map/data.js"
+				],
+				"refer": [
+					"setting.html",
+					"faxian_main.html"
+				],
+				"priority": 0
+			},
+			"personalInfo.html": {
+				"href": "personalInfo.html",
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"images/setting/fuxiaolin.jpg"
+				],
+				"priority": 4
+			},
+			"faxian_detail.html": {
+				"resources": [
+					"js/mui.zoom.js",
+					"js/mui.min.js",
+					"images/60x60.gif",
+					"js/mui.previewimage.js",
+					"custom/faxian_detail.css",
+					"images/muwu.jpg",
+					"js/jquery-1.11.1.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/jquery.autosize.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"envCompany.html": {
+				"resources": [
+					"js/mui.min.js",
+					"js/companyInfo.js",
+					"js/jquery-1.11.1.min.js"
+				],
+				"refer": [
+					"info.html"
+				],
+				"priority": 0
+			},
+			"index_v02.html": {
+				"resources": [
+					"css-item/fxsmall.css",
+					"js-item/classie.js",
+					"fonts/mui.ttf",
+					"images/search.png",
+					"custom/index-scroll.css",
+					"js-item/modernizr.custom.js",
+					"js/mui.min.js",
+					"js/jquery-1.11.1.min.js",
+					"images/map/aitejpg.jpg",
+					"css/mui.min.css",
+					"js/iscroll.js",
+					"css-item/component.css",
+					"images/map/location_all.png",
+					"js/map/data.js",
+					"images/location.png",
+					"images/map/icon-04.png",
+					"images/map/icon-05.png",
+					"images/info/32.png",
+					"images/info/2.png",
+					"images/map/location-green.png",
+					"images/info/12.png",
+					"images/info/3.png",
+					"images/info/21.png",
+					"images/map/location-darkblue.png",
+					"images/info/31.png",
+					"images/map/location-purple.png",
+					"images/info/10.png",
+					"images/info/50.png",
+					"images/info/13.png",
+					"images/info/22.png",
+					"images/info/51.png",
+					"images/map/location-orange.png",
+					"images/info/1.png",
+					"images/map/location-red.png",
+					"images/info/11.png",
+					"images/info/30.jpg",
+					"images/info/0.png",
+					"images/info/20.png",
+					"images/map/location-blue.png"
+				],
+				"refer": [
+					"cityList.html",
+					"info.html",
+					"faxian_main.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {
 			"resources": [
+				"css/feedback.css",
+				"images/map/icon-06.png",
+				"login.html",
+				"img",
+				"menu.html",
 				"js/mui.dtpicker.js",
+				"forget_password.html",
+				"images/map-icon/icon-05.png",
+				"images/qihoo.png",
+				"images/map/factory_small.png",
+				"images/map-icon/icon-03.png",
+				"images/map/icon-01.png",
+				"README.md",
+				"message.html",
+				"js/app.js",
 				"css/mui.listpicker.css",
+				"demo_index.bak.html",
+				"js/mui.enterfocus.js",
+				"js/95516.js",
+				"unlock.html",
 				"css/mui.dtpicker.css",
+				"images/map-icon/icon-02.png",
+				"images/img_sprite.png",
 				"css/mui.picker.all.css",
-				"examples/modals.html",
+				"images/map-icon/icon-06.png",
+				"demo_index.html",
+				"examples/tab-vertical-scroll.html",
+				"images/user-photo.png",
 				"examples/tabbar-labels-only.html",
+				"js/baidu.js",
+				"images/map-icon/icon-04.png",
+				"images/weixin.png",
+				"images/qq.png",
+				"setting_del.html",
+				"images/map-icon/icon-07.png",
 				"js/mui.listpicker.js",
+				"images/sinaweibo.png",
+				"images/map/high_school_small.png",
+				"guide.html",
+				"js/map/customMap.js",
+				"images/260254929027748009.jpg",
+				"backindex.html",
 				"libs/easymob-webim-sdk/quickstart.md",
-				"js/mui.picker.all.js"
+				"index.bak.html",
+				"css/style.css",
+				"reg.html",
+				"images/map-icon/location_all.png",
+				"js/mui.picker.all.js",
+				"js/allCities.js",
+				"images/map/jilin.jpg",
+				"main.html",
+				"examples/modals.html",
+				"images/map/users.png",
+				"images/map/heilongjiang.jpg",
+				"images/setting/background1.jpg",
+				"images/map/liaoning.jpg",
+				"images/map-icon/icon-01.png",
+				"examples/progressbar.html"
 			]
 		}
 	},
@@ -1031,7 +1352,54 @@
 	  "js/mui.dtpicker.js",
 	  "js/mui.listpicker.js",
 	  "js/mui.picker.all.js",
-	  "libs/easymob-webim-sdk/quickstart.md"
+	  "libs/easymob-webim-sdk/quickstart.md",
+	  "css/feedback.css",
+	  "css/style.css",
+	  "examples/progressbar.html",
+	  "examples/tab-vertical-scroll.html",
+	  "images/map/factory.png",
+	  "images/map/factory_small.png",
+	  "images/map/heilongjiang.jpg",
+	  "images/map/high_school_small.png",
+	  "images/map/jilin.jpg",
+	  "images/map/liaoning.jpg",
+	  "images/map/users.png",
+	  "images/map-icon/icon-01.png",
+	  "images/map-icon/icon-02.png",
+	  "images/map-icon/icon-03.png",
+	  "images/map-icon/icon-04.png",
+	  "images/map-icon/icon-05.png",
+	  "images/map-icon/icon-06.png",
+	  "images/map-icon/icon-07.png",
+	  "images/map-icon/location_all.png",
+	  "images/setting/background1.jpg",
+	  "images/260254929027748009.jpg",
+	  "images/img_sprite.png",
+	  "images/qihoo.png",
+	  "images/qq.png",
+	  "images/sinaweibo.png",
+	  "images/user-photo.png",
+	  "images/weixin.png",
+	  "backindex.html",
+	  "demo_index.bak.html",
+	  "guide.html",
+	  "img",
+	  "index.bak.html",
+	  "login.html",
+	  "main.html",
+	  "menu.html",
+	  "message.html",
+	  "reg.html",
+	  "setting_del.html",
+	  "unlock.html",
+	  "js/map/customMap.js",
+	  "js/95516.js",
+	  "js/allCities.js",
+	  "js/app.js",
+	  "js/baidu.js",
+	  "js/mui.enterfocus.js",
+	  "README.md",
+	  "demo_index.html"
 	]
 
 	

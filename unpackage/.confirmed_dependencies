@@ -1,1 +1,275 @@
-null
+{
+  "index.html": {
+    "resources": [
+      "custom/index-scroll.css",
+      "js-item/modernizr.custom.js",
+      "js/jquery-1.11.1.min.js",
+      "js/mui.min.js",
+      "css-item/fxsmall.css",
+      "js-item/classie.js",
+      "js/iscroll.js",
+      "css/mui.min.css",
+      "css-item/component.css",
+      "js/map/data.js",
+      "fonts/mui.ttf",
+      "images/map/aitejpg.jpg",
+      "images/map/location_all.png",
+      "images/location.png",
+      "images/search.png",
+      "images/map/icon-02.png",
+      "images/map/icon-04.png",
+      "info.html",
+      "images/map/icon-05.png",
+      "images/map/icon-07.png",
+      "images/map/icon-03.png",
+      "images/map/factory.png"
+    ],
+    "refer": [
+      "cityList.html",
+      "setting.html",
+      "post.html",
+      "faxian_main.html",
+      "info.html",
+      "first.html",
+      "index.html"
+    ]
+  },
+  "cityList.html": {
+    "resources": [
+      "css/mui.indexedlist.css",
+      "js/cities.js",
+      "js/mui.indexedlist.js",
+      "js/jquery-1.11.1.min.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "setting.html": {
+    "resources": [
+      "js/checkUpdate.js",
+      "images/setting/fuxiaolin.jpg",
+      "images/setting/background.jpg",
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ],
+    "refer": [
+      "index.html",
+      "faxian_main.html",
+      "setting.html",
+      "personalInfo.html"
+    ]
+  },
+  "post.html": {
+    "resources": [
+      "js/mui.picker.js",
+      "custom/post.css",
+      "js/mui.poppicker.js",
+      "css/mui.poppicker.css",
+      "css/mui.picker.css",
+      "js-item/modernizr.custom.js",
+      "js/jquery-1.11.1.min.js",
+      "js/mui.min.js",
+      "css-item/fxsmall.css",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css-item/component.css",
+      "js/map/data.js",
+      "js/feedback-page.js",
+      "images/iconfont-tianjia.png"
+    ],
+    "refer": [
+      "post_location.html",
+      "faxian_main.html"
+    ]
+  },
+  "faxian_main.html": {
+    "resources": [
+      "js/mui.pullToRefresh.js",
+      "images/cbd.jpg",
+      "images/muwu.jpg",
+      "js/mui.pullToRefresh.material.js",
+      "images/shuijiao.jpg",
+      "js/jquery-1.11.1.min.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "images/pen2.png",
+      "js/map/data.js",
+      "images/info/2.png",
+      "images/info/1.png",
+      "images/info/3.png",
+      "images/info/0.png",
+      "images/info/22.png",
+      "images/info/21.png",
+      "images/info/20.png"
+    ],
+    "refer": [
+      "index.html",
+      "faxian_main.html",
+      "setting.html",
+      "faxian_detail.html",
+      "post.html"
+    ]
+  },
+  "info.html": {
+    "resources": [
+      "js/info.js",
+      "images/info/zhongliangmaiya.jpg",
+      "js/jquery-1.11.1.min.js",
+      "js/mui.min.js",
+      "envPersion.html",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "images/60x60.gif",
+      "images/info/1.png",
+      "images/info/2.png",
+      "images/info/3.png",
+      "images/info/10.png",
+      "images/info/12.png",
+      "images/info/11.png",
+      "js/jquery.autosize.js",
+      "images/info/0.png"
+    ],
+    "refer": [
+      "envPersion.html",
+      "envCompany.html",
+      "faxian_detail.html"
+    ]
+  },
+  "post_location.html": {
+    "resources": [
+      "js/jquery-1.11.1.min.js",
+      "js/mui.min.js",
+      "custom/post.css",
+      "css/mui.min.css",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "envPersion.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "images/setting/fuxiaolin.jpg",
+      "images/setting/background.jpg",
+      "images/envPersion/envPersionBack.jpg",
+      "images/shuijiao.jpg",
+      "js/jquery-1.11.1.min.js",
+      "js/persionInfo.js",
+      "images/info/zhongliangmaiya.jpg",
+      "js/personInfo.js"
+    ],
+    "refer": [
+      "info.html"
+    ]
+  },
+  "first.html": {
+    "resources": [
+      "custom/index-scroll.css",
+      "js-item/modernizr.custom.js",
+      "css-item/fxsmall.css",
+      "js-item/classie.js",
+      "js/iscroll.js",
+      "css-item/component.css",
+      "images/map/location_all.png",
+      "images/location.png",
+      "images/search.png",
+      "js/jquery-1.11.1.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/map/data.js"
+    ],
+    "refer": [
+      "setting.html",
+      "faxian_main.html"
+    ]
+  },
+  "personalInfo.html": {
+    "href": "personalInfo.html",
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "images/setting/fuxiaolin.jpg"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "faxian_detail.html": {
+    "resources": [
+      "js/mui.zoom.js",
+      "js/mui.min.js",
+      "images/60x60.gif",
+      "js/mui.previewimage.js",
+      "custom/faxian_detail.css",
+      "images/muwu.jpg",
+      "js/jquery-1.11.1.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/jquery.autosize.js"
+    ],
+    "refer": []
+  },
+  "envCompany.html": {
+    "resources": [
+      "js/mui.min.js",
+      "js/companyInfo.js",
+      "js/jquery-1.11.1.min.js"
+    ],
+    "refer": [
+      "info.html"
+    ]
+  },
+  "index_v02.html": {
+    "resources": [
+      "css-item/fxsmall.css",
+      "js-item/classie.js",
+      "fonts/mui.ttf",
+      "images/search.png",
+      "custom/index-scroll.css",
+      "js-item/modernizr.custom.js",
+      "js/mui.min.js",
+      "js/jquery-1.11.1.min.js",
+      "images/map/aitejpg.jpg",
+      "css/mui.min.css",
+      "js/iscroll.js",
+      "css-item/component.css",
+      "images/map/location_all.png",
+      "js/map/data.js",
+      "images/location.png",
+      "images/map/icon-04.png",
+      "images/map/icon-05.png",
+      "images/info/32.png",
+      "images/info/2.png",
+      "images/map/location-green.png",
+      "images/info/12.png",
+      "images/info/3.png",
+      "images/info/21.png",
+      "images/map/location-darkblue.png",
+      "images/info/31.png",
+      "images/map/location-purple.png",
+      "images/info/10.png",
+      "images/info/50.png",
+      "images/info/13.png",
+      "images/info/22.png",
+      "images/info/51.png",
+      "images/map/location-orange.png",
+      "images/info/1.png",
+      "images/map/location-red.png",
+      "images/info/11.png",
+      "images/info/30.jpg",
+      "images/info/0.png",
+      "images/info/20.png",
+      "images/map/location-blue.png"
+    ],
+    "refer": [
+      "cityList.html",
+      "info.html",
+      "faxian_main.html"
+    ]
+  }
+}

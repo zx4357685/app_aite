@@ -1,1 +1,52 @@
-null
+{
+  "post_location.html": {
+    "href": "post_location.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "images/iconfont-tianjia.png"
+    ],
+    "priority": 0
+  },
+  "faxian_main.html": {
+    "href": "faxian_main.html",
+    "resources": [],
+    "refer": [
+      "index.html",
+      "faxian_main.html",
+      "setting.html"
+    ],
+    "priority": 2
+  },
+  "personalInfo.html": {
+    "href": "personalInfo.html",
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "images/setting/fuxiaolin.jpg"
+    ],
+    "priority": 4
+  },
+  "setting.html": {
+    "href": "setting.html",
+    "resources": [
+      "css/mui.min.css"
+    ],
+    "refer": [
+      "index.html",
+      "faxian_main.html",
+      "setting.html",
+      "personalInfo.html"
+    ],
+    "priority": 1
+  },
+  "index.html": {
+    "href": "index.html",
+    "resources": [],
+    "refer": [
+      "index.html"
+    ],
+    "priority": 0
+  }
+}

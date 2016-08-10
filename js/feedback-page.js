@@ -33,6 +33,9 @@
 	};
 	var imageIndexIdNum = 0;
 	ui.newPlaceholder = function() {
+		if(imageIndexIdNum>2){
+			return false;
+		}
 		var fileInputArray = ui.getFileInputArray();
 		if (fileInputArray &&
 			fileInputArray.length > 0 &&

@@ -54,13 +54,18 @@
                     });  
                     Page.show();
                     
-                    var ws=plus.webview.currentWebview();
-                    ws.hide();
+//                  var ws=plus.webview.currentWebview();
+//                  ws.hide();
                 });
-                window.addEventListener('show', function(event) {
-                    var gpsCity= event.detail.gpsCity;
-                    $("#cityGPS").html(gpsCity);
-                })  
+                var gpsCity = plus.storage.getItem('gpsCity');
+                if(gpsCity == null){
+                	gpsCity = '宜兴'
+                }
+                $("#cityGPS").html(gpsCity);
+//              window.addEventListener('show', function(event) {
+//                  var gpsCity= plus.storage.getItem('gpsCity');
+//                  $("#cityGPS").html(gpsCity);
+//              })  
             });
 		</script>
 	</head>
@@ -108,11 +113,15 @@
 					<div class="mui-indexed-list-empty-alert">没有数据</div>
 					<ul id="cityList" class="mui-table-view">
 						<li data-group="GPS" class="mui-table-view-divider mui-indexed-list-group">定位到的城市</li>
-						<li class='mui-table-view-cell mui-indexed-list-item' id="cityGPS">宜兴</li>
+						<li class='mui-table-view-cell mui-indexed-list-item' id="cityGPS"><span class="mui-spinner"></span></li>
 						<li data-group="GPS" class="mui-table-view-divider mui-indexed-list-group">历史搜索</li>
-						<li class='mui-table-view-cell mui-indexed-list-item'>哈尔滨</li>
 						<li class='mui-table-view-cell mui-indexed-list-item'>大连</li>
 						<li class='mui-table-view-cell mui-indexed-list-item'>沈阳</li>
+						<li class='mui-table-view-cell mui-indexed-list-item'>抚顺</li>
+						<li class='mui-table-view-cell mui-indexed-list-item'>鞍山</li>
+						<li class='mui-table-view-cell mui-indexed-list-item'>辽阳</li>
+						<li class='mui-table-view-cell mui-indexed-list-item'>朝阳</li>
+						<li class='mui-table-view-cell mui-indexed-list-item'>盘锦</li>
 						<li id="cityListA" data-group="A" class="mui-table-view-divider mui-indexed-list-group">A</li>
 						<li id="cityListB" data-group="B" class="mui-table-view-divider mui-indexed-list-group">B</li>
 						<li id="cityListC" data-group="C" class="mui-table-view-divider mui-indexed-list-group">C</li>
@@ -144,5 +153,4 @@
 			</div>
 		</div>
 	</body>
-
 </html>

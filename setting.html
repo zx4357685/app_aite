@@ -63,15 +63,50 @@
 				color:#FFFFFF;
 				margin: 2px;
 			}
-			.mui-bar-tab .mui-tab-item.mui-active{
-				color: #619C00;
-			}
 		</style>
 		<script type="text/javascript" charset="UTF-8">
 			mui.init();
 			mui.ready(function() {
 				document.getElementById("update").addEventListener('tap', function() {
 					checkUpdate();
+				});
+			})
+			var first = null;
+			mui.back = function() {
+				if(!first) {
+					first = new Date().getTime();
+					mui.toast('再按一次退出应用');
+					setTimeout(function() {
+						first = null;
+					}, 1000);
+				} else {
+					if(new Date().getTime() - first < 1000) {
+						plus.runtime.quit();
+					}
+				}
+			};
+			mui.plusReady(function() {
+				mui('.mui-bar-tab').on('tap', 'a', function(e) {
+					var targetTab = this.getAttribute('href');
+					if(targetTab == "setting.html") {
+						return;
+					}
+					// 在Android5以上设备，如果默认没有开启硬件加速，则强制设置开启
+					if(!plus.webview.defaultHardwareAccelerated() && parseInt(plus.os.version) >= 5) {
+						styles.hardwareAccelerated = true;
+					}
+					if(targetTab == "faxian_main.html") {
+						var faxianPage = mui.openWindow({
+							url: 'faxian_main.html',
+							id: "faxian_main.html",
+							createNew: false
+						});
+						faxianPage.show("fade-in");
+					}
+					if(targetTab == "index.html") {
+						var indexPage = plus.webview.getWebviewById(plus.runtime.appid);
+						indexPage.show("fade-in");
+					}
 				});
 			})
 		</script>

@@ -1,0 +1,769 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="custom/index-scroll.css" rel="stylesheet" />
+		<title>地理编码</title>
+		<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=31b7825c9a590b5e125e0b972fe00d9d&plugin=AMap.Geocoder"></script>
+		<!--<script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>-->
+		<link rel="stylesheet" type="text/css" href="css-item/component.css" />
+		<link rel="stylesheet" type="text/css" href="css-item/fxsmall.css" />
+		<script src="js-item/modernizr.custom.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="js/iscroll.js"></script>
+		<script src="js-item/classie.js"></script>
+		<!--<script src="js-item/jquery.dotdotdot.js"></script>-->
+		<script type="text/javascript" src="js/map/data.js"></script>
+
+		<style>
+			.itemDiv {
+				box-shadow: 0 .1em .1em 0 rgba(0, 0, 0, .1);
+				border: solid 1px rgba(0, 0, 0, .2);
+				border-bottom: 1px solid rgba(0, 0, 0, .3);
+				display: block;
+				width: 99%;
+				height: 162px;
+				text-align: left;
+				/*line-height: 20px;*/
+				padding: 2px;
+				margin-top: 4px;
+			}
+			
+			.itemDiv p {
+				margin-left: 209px;
+			}
+			
+			.item-img {
+				vertical-align: middle;
+				float: left;
+				width: 200px;
+				height: 120px;
+				/*border: #6641E2 1px solid;*/
+				margin-right: 5px;
+				margin-left: 5px;
+				margin-top: 5px;
+			}
+			
+			.item-img img {
+				max-height: 150px;
+			}
+			
+			.amap-container .item-img img {
+				float: left;
+				width: 100px;
+				height: 100px;
+				/*border: #6641E2 1px solid;*/
+				margin-right: 5px;
+			}
+			
+			.amap-logo {
+				right: 0 !important;
+				left: auto !important;
+				display: none;
+			}
+			
+			.amap-copyright {
+				display: none;
+				visibility: hidden;
+			}
+			
+			#container {
+				position: relative;
+				/*top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;*/
+			}
+		</style>
+	</head>
+
+	<body>
+		<nav class="mui-bar mui-bar-tab" id='bottomx'>
+			<a id="defaultTab" class="mui-tab-item" href="index.html" style='color: #619C00;'>
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" href="faxian_main.html">
+				<span class="mui-icon mui-icon-eye"></span></span>
+				<span class="mui-tab-label">发现</span>
+			</a>
+			<a class="mui-tab-item" href="setting.html">
+				<span class="mui-icon mui-icon-person"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+		<div class="wrap" style="overflow: hidden;">
+			<div class="mui-row" id="top" style="">
+				<div align="left" style="padding-left: 3px;padding-bottom:3px;width:190px;">
+					<i class="point"></i>
+					<label id="myla" style="cursor: pointer;text-decoration:underline">大连</label>
+				</div>
+				<div style="float: left;margin-top:-42px;margin-left: 60px;" id="topInput">
+					<input type="search" class="ac-pass" placeholder="输入 /污染类别/工程名称/企业名称/"></div>
+				<!--<div class="mui-col-xs-1" style="line-height: 45px;" align="center">
+					<a id="menu" style="line-height: 40px" class="mui-action-menu mui-icon mui-icon-bars mui-pull-right" href="#topPopover"></a>
+				</div>-->
+				<!--右上角弹出菜单-->
+				<!--<div id="topPopover" class="mui-popover">
+					<div class="mui-popover-arrow"></div>
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell" id="postPage">
+									<a href="#"><span class="mui-icon mui-icon-compose"></span>需求发布</a>
+								</li>
+								<li class="mui-table-view-cell">
+									<a href="#">Item3</a>
+								</li>
+
+							</ul>
+						</div>
+					</div>
+
+				</div>-->
+
+			</div>
+			<div id="wrapper" class="twitter_widget_1">
+				<div id="scroller">
+					<ul>
+						<li class="testClass" id="all">
+							<a href="javascript:void(0)"> 全部</a>
+						</li>
+						<li id="industry"><span class="circle" style="color: #00A55A">●</span>
+							<a href="javascript:void(0)">工业</a>
+						</li>
+						<li id="city_planning"><span class="circle" style="color: #3C8DBC">●</span>
+							<a href="javascript:void(0)">市政</a>
+						</li>
+						<li id="renovate"><span class="circle" style="color: #DD4B39">●</span>
+							<a href="javascript:void(0)">整治</a>
+						</li>
+						<li id="farm"><span class="circle" style="color: #605CA8">●</span>
+							<a href="javascript:void(0)">畜禽</a>
+						</li>
+						<li id="company"><span class="circle" style="color: #F39C12">●</span>
+							<a href="javascript:void(0)">企业</a>
+						</li>
+						<li id="technology"><span class="circle" style="color: #73D0F4">●</span>
+							<a href="javascript:void(0)">技术</a>
+						</li>
+						<li id="humanResource"><span class="circle" style="color: #FF851B">●</span>
+							<a href="javascript:void(0)">人才</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div style="width: 100%; margin-top: 2px;" id="container"></div>
+			<div style="text-align: center;margin-top: 2px;background: #FFFFFF;" id="testLeft">
+				<div id="component" class="component " style="height:169px;margin-bottom: 10px;">
+					<ul class="itemwrap" id="itemwrap">
+					</ul>
+					<nav style="visibility: hidden;display: none;">
+						<a class="prev" href="#">Previous item</a>
+						<a class="next" href="#">Next item</a>
+					</nav>
+				</div>
+			</div>
+
+		</div>
+		<script type="text/javascript">
+			var map = new AMap.Map("container", {
+				resizeEnable: true,
+			});
+
+			var icon_image = "";
+			var citydata = null;
+			mui.init({
+				keyEventBind: {
+					backbutton: true, //Boolean(默认true)关闭back按键监听
+					menubutton: true //Boolean(默认true)关闭menu按键监听
+				},
+				gestureConfig: {
+					swipe: true, //默认为true
+				}
+			});
+			var first = null;
+			mui.back = function() {
+				if(!first) {
+					first = new Date().getTime();
+					mui.toast('再按一次退出应用');
+					setTimeout(function() {
+						first = null;
+					}, 1000);
+				} else {
+					if(new Date().getTime() - first < 1000) {
+						plus.runtime.quit();
+					}
+				}
+			};
+
+			var support = {
+					animations: Modernizr.cssanimations
+				},
+				animEndEventNames = {
+					'WebkitAnimation': 'webkitAnimationEnd',
+					'OAnimation': 'oAnimationEnd',
+					'msAnimation': 'MSAnimationEnd',
+					'animation': 'animationend'
+				},
+				// animation end event name
+				animEndEventName = animEndEventNames[Modernizr.prefixed('animation')],
+				//				//		effectSel = document.getElementById('fxselect'),
+				component = "",
+				items = "",
+				current = 0,
+				itemsCount = 0,
+				nav = "",
+				navNext = "",
+				navPrev = "",
+				isAnimating = false;
+
+			$(document).ready(function() {
+
+				var bodyHeight = $("body").height();
+				var topHeight = $("#wrapper").height();
+				var scrollHeight = $("#top").height();
+				var mapHeight = bodyHeight - topHeight - scrollHeight - 175 - 50;
+				var bodywidth = $("body").width();
+				var topWidth = bodywidth - 70;
+				$("#container").height(mapHeight);
+				$("#topInput").width(topWidth);
+
+				myScroll = new IScroll('#wrapper', {
+					scrollX: true,
+					scrollY: false,
+					mouseWheel: true,
+					click: true
+				});
+				document.addEventListener('touchmove', function(e) {
+					e.preventDefault();
+				}, false);
+
+				$("#scroller a").click(function() {
+					$("#itemwrap").html("");
+					map = new AMap.Map("container", {
+						resizeEnable: true
+					});
+					$("#scroller li").removeClass('testClass');
+					$(this).parent('li').addClass('testClass');
+					var str = $(this).parent('li').attr("id");
+					if(str == "all") {
+						add_all_point();
+					} else {
+						var data = index_data[str][0]['address'];
+						icon_image = index_data[str][0]['locationIcon'];
+						var city = $("#myla").html();
+						citydata = data[0][city][0];
+						//						console.log(citydata);
+						add_point(citydata);
+						setInit();
+					}
+					$(".ac-pass").blur();
+				});
+				add_all_point();
+
+				function add_point(point) {
+					var icon = new AMap.Icon({
+						size: new AMap.Size(55, 35), //图标大小
+						image: icon_image,
+						clickable: true
+					});
+					var markers = [];
+					for(key in citydata['project']) {
+						var x = point['project'][key]['lng'];
+						var y = point['project'][key]['lat'];
+
+						var marker = new AMap.Marker({
+							map: map,
+							position: [x, y],
+							icon: icon
+						});
+
+						markers.push(marker);
+						if(key == 0) {
+							var str = '<li class="current" value="';
+							str += x + "_" + y;
+							str += '" id=';
+							str += point['project'][key]['id'];
+							str += '><div class="itemDiv"><div class="item-img"><img src = "' + point['project'][key]['img'] + '"/></div>';
+							str += '<h4 style="font-size:16px">';
+							str += point['project'][key]['projectName'] + '</h4><p style="text-align:left"><span class="mui-badge">简介</span>' + point['project'][key]['profile'] + '<p/></div></li>';
+							$("#itemwrap").append(str);
+						} else {
+							var str = '<li  value="';
+							str += x + "_" + y;
+							str += '" id=';
+							str += point['project'][key]['id'];
+							str += '><div class="itemDiv"><div class="item-img"><img src = "' + point['project'][key]['img'] + '"/></div>';
+							str += '<h4 style="font-size:16px">';
+							str += point['project'][key]['projectName'] + '</h4><p style="text-align:left"><span class="mui-badge">简介</span>' + point['project'][key]['profile'] + '<p/></div></li>';
+							$("#itemwrap").append(str);
+						}
+
+					}
+
+					for(mk in markers) {
+						markers[mk].on("click", function(e) {
+							attribute(this.getPosition());
+							$(".ac-pass").blur();
+						});
+
+					}
+
+					map.setFitView();
+				}
+
+				var elem = document.getElementById("testLeft");
+				elem.addEventListener("swipeleft", function() {
+					console.log("你正在向左滑动");
+					navigate('next');
+				});
+				elem.addEventListener("swiperight", function() {
+					console.log("你正在向right滑动");
+					navigate('prev');
+				});
+				elem.addEventListener("click", function() {
+					id = $("ul .current", $(this)).attr('id');
+					mui.openWindow({
+						url: 'info.html?id=' + id
+					});
+				});
+				
+				mui('#postPage').on('tap', 'a', function(e) {
+					var postPage = mui.openWindow({
+						url: 'post.html',
+						id: "post.html",
+						createNew: false
+					});
+					mui.fire(postPage, 'show', {
+						theLocationX: longitude,
+						theLocationY: latitude
+					});
+					postPage.show();
+				});
+				layoutHeight = $(window).height();
+				$(window).resize(function() {
+					clientHeight = $(window).height();
+					changeHeight = layoutHeight - clientHeight;
+					if(changeHeight > 100) {
+						$("#bottomx").hide();
+						$(".ac-pass").unbind("keypress").bind('keypress', function(event) {
+							event = document.all ? window.event : event;
+							if((event.keyCode || event.which) == 13) {
+								//								alert("点击搜索");
+								var inputStr = $.trim($(".ac-pass").val());
+								alert("此功能正在开发中...");
+								$(".ac-pass").blur();
+								$("#itemwrap").focus();
+								//								if($("#myla").html() != "大连") {
+								//									alert("该区域未搜索到此检索条件，切换城市到<大连>");
+								//									$("#myla").html("大连");
+								//								}
+								//								$("#scroller li").removeClass('testClass');
+								//								$("#all").addClass('testClass');
+								//								icon_image = "images/map/location_all.png";
+								//								map = new AMap.Map("container", {
+								//									resizeEnable: true
+								//								});
+								//								switch(inputStr) {
+								//									case "工业污水":
+								//										var CityData = search;
+								//										$("#itemwrap").html("");
+								//										geocoder(CityData);
+								//										setInit(CityData);
+								//										break;
+								//									case "雪花":
+								//										var CityData = search1;
+								//										$("#itemwrap").html("");
+								//										geocoder(CityData);
+								//										setInit(CityData);
+								//										break;
+								//									case "大气污染":
+								//										var CityData = dalian2;
+								//										$("#itemwrap").html("");
+								//										geocoder(CityData);
+								//										setInit(CityData);
+								//										break;
+								//									default:
+								//										alert("该区域未搜索到此检索条件");
+								//								}
+								//								$(".ac-pass").blur();
+							}
+						});
+
+					} else {
+						$("#bottomx").show();
+						$(".ac-pass").unbind("keypress");
+						$(".ac-pass").blur();
+					}
+				});
+			});
+
+			var longitude = "";
+			var latitude = "";
+			mui.plusReady(function() {
+				
+				plus.geolocation.getCurrentPosition(function(p) {
+					var geocoder = new AMap.Geocoder({
+						radius: 1000,
+						extensions: "all"
+					});
+					longitude = p.coords.longitude;
+					latitude = p.coords.latitude;
+					var lnglatXY = [longitude, latitude]; 
+					geocoder.getAddress(lnglatXY, function(status, result) {
+						if(status === 'complete' && result.info === 'OK') {
+							gpsCity = result.regeocode.addressComponent.city //返回地址描述
+							if(gpsCity.substr(gpsCity.length-1,1)=='市'){
+								gpsCity=gpsCity.substring(0,gpsCity.length-1);
+							}
+							plus.storage.setItem('gpsCity', gpsCity);
+						}
+					});
+				}, function(e) {
+					alert("Geolocation error: " + e.message);
+				});
+				$("#myla,.point").click(function() {
+					$(".ac-pass").blur();
+					setTimeout(function() {
+						var cityList = mui.openWindow({
+							url: 'cityList.html',
+							id: "cityList.html",
+							createNew: false
+						});
+						mui.fire(cityList, 'show', {
+							gpsCity: plus.storage.getItem('gpsCity'),
+						});
+						cityList.show('slide-in-top', 350);
+					}, 400)
+
+				});
+
+				window.addEventListener('show', function(event) {
+					//获得事件参数  
+					$("#itemwrap").html("");
+					var city = event.detail.city;
+					$("#myla").html(city);
+					$(".ac-pass").val('');
+					var itemStr = $(".testClass").attr("id");
+					if(itemStr == "all") {
+						add_all_point();
+					} else {
+						var data = index_data[itemStr][0]['address'];
+						icon_image = index_data[itemStr][0]['locationIcon'];
+						//						var city = $("#myla").html();
+						citydata = data[0][city][0];
+						//						console.log(citydata);
+						add_point(citydata);
+						setInit();
+					}
+
+				});
+
+				mui('.mui-bar-tab').on('tap', 'a', function(e) {
+					var targetTab = this.getAttribute('href');
+					if(targetTab == "index.html") {
+						return;
+					}
+					// 在Android5以上设备，如果默认没有开启硬件加速，则强制设置开启
+					if(!plus.webview.defaultHardwareAccelerated() && parseInt(plus.os.version) >= 5) {
+						styles.hardwareAccelerated = true;
+					}
+					if(targetTab == "faxian_main.html") {
+						var faxianPage = mui.openWindow({
+							url: 'faxian_main.html',
+							id: "faxian_main.html",
+							createNew: false
+						});
+						faxianPage.show("fade-in");
+					}
+					if(targetTab == "setting.html") {
+						var settingPage = mui.openWindow({
+							url: 'setting.html',
+							id: "setting.html",
+							createNew: false
+						});
+						settingPage.show("fade-in");
+					}
+				});
+			})
+
+			function attribute(e) {
+				//				var p = e.lnglat;
+				//				console.log(e.lng);
+				$("#itemwrap li").each(function(index) {
+					//					console.log(index);
+					var point = $(this).attr('value');
+
+					var arr = point.split('_');
+					//					console.log(arr);
+					if(e.lng == arr[0] && e.lat == arr[1]) {
+						//						console.log(index);
+						navigate(index);
+					}
+				})
+			}
+
+			function navigate(dir) {
+				component.className = component.className.replace(/\bfx.*?\b/g, '');
+				classie.addClass(component, "fxShinkansen");
+				if(isAnimating) return false;
+				isAnimating = true;
+				var cntAnims = 0;
+				var currentItem = items[current];
+
+				if(dir === 'next') {
+					current = current < itemsCount - 1 ? current + 1 : 0;
+				} else if(dir === 'prev') {
+					current = current > 0 ? current - 1 : itemsCount - 1;
+				} else {
+					current = dir;
+				}
+				//				console.log(current);
+				var nextItem = items[current];
+				var onEndAnimationCurrentItem = function() {
+					this.removeEventListener(animEndEventName, onEndAnimationCurrentItem);
+					classie.removeClass(this, 'current');
+
+					classie.removeClass(this, dir === 'next' ? 'navOutNext' : 'navOutPrev');
+					++cntAnims;
+					if(cntAnims === 2) {
+						isAnimating = false;
+					}
+				}
+				var onEndAnimationNextItem = function() {
+					this.removeEventListener(animEndEventName, onEndAnimationNextItem);
+					classie.addClass(this, 'current');
+					classie.removeClass(this, dir === 'next' ? 'navInNext' : 'navInPrev');
+					++cntAnims;
+					if(cntAnims === 2) {
+						isAnimating = false;
+					}
+				}
+				if(support.animations) {
+					currentItem.addEventListener(animEndEventName, onEndAnimationCurrentItem);
+					nextItem.addEventListener(animEndEventName, onEndAnimationNextItem);
+				} else {
+					onEndAnimationCurrentItem();
+					onEndAnimationNextItem();
+				}
+
+				classie.addClass(currentItem, dir === 'next' ? 'navOutNext' : 'navOutPrev');
+				classie.addClass(nextItem, dir === 'next' ? 'navInNext' : 'navInPrev');
+
+			}
+
+			function setInit() {
+				component = document.getElementById('component'),
+					items = component.querySelector('ul.itemwrap').children,
+					current = 0,
+					itemsCount = items.length,
+					//					itemsCount = allpoint.length,
+					nav = component.querySelector('nav'),
+					navNext = nav.querySelector('.next'),
+					navPrev = nav.querySelector('.prev'),
+					isAnimating = false;
+			}
+
+			function add_all_point() {
+
+				//					map = new AMap.Map("container", {
+				//						resizeEnable: true
+				//					});
+				var city = $("#myla").html();
+				var alldata = index_data;
+				var industryData = alldata["industry"][0]['address'];
+				icon_image = alldata["industry"][0]['locationIcon'];
+				citydata1 = industryData[0][city][0];
+				var icon1 = new AMap.Icon({
+					size: new AMap.Size(55, 35), //图标大小
+					image: icon_image,
+					clickable: true
+				});
+
+				//					add_point(citydata1);
+				var cityplanData = alldata["city_planning"][0]['address'];
+				icon_image = alldata["city_planning"][0]['locationIcon'];
+				citydata2 = cityplanData[0][city][0];
+				var icon2 = new AMap.Icon({
+					size: new AMap.Size(55, 35), //图标大小
+					image: icon_image,
+					clickable: true
+				});
+				//					add_point(citydata2);
+				var renovateData = alldata["renovate"][0]['address'];
+				icon_image = alldata["renovate"][0]['locationIcon'];
+				citydata3 = renovateData[0][city][0];
+				var icon3 = new AMap.Icon({
+					size: new AMap.Size(55, 35), //图标大小
+					image: icon_image,
+					clickable: true
+				});
+
+				var comData = alldata["company"][0]['address'];
+				icon_image = alldata["company"][0]['locationIcon'];
+				citydata4 = comData[0][city][0];
+				var icon4 = new AMap.Icon({
+					size: new AMap.Size(55, 35), //图标大小
+					image: icon_image,
+					clickable: true
+				});
+
+				var farmData = alldata["farm"][0]['address'];
+				icon_image = alldata["farm"][0]['locationIcon'];
+				citydata5 = farmData[0][city][0];
+				var icon5 = new AMap.Icon({
+					size: new AMap.Size(55, 35), //图标大小
+					image: icon_image,
+					clickable: true
+				});
+
+				var markers = [];
+				for(key in citydata1['project']) {
+					var x = citydata1['project'][key]['lng'];
+					var y = citydata1['project'][key]['lat'];
+
+					var marker = new AMap.Marker({
+						map: map,
+						position: [x, y],
+						icon: icon1
+					});
+
+					markers.push(marker);
+					if(key == 0) {
+						var str = '<li class="current" value="';
+						str += x + "_" + y;
+						str += '" id=';
+						str += citydata1['project'][key]['id'];
+						str += '><div class="itemDiv"><div class="item-img"><img src = "' + citydata1['project'][key]['img'] + '"/></div>';
+						str += '<h4 style="font-size:16px"><span class="mui-badge mui-badge-primary" style="font-size: 16px;background-color:#00A55A">工业</span>';
+						str += citydata1['project'][key]['projectName'] + '</h4><p style="text-align:left"><span class="mui-badge">简介</span>' + citydata1['project'][key]['profile'] + '<p/></div></li>';
+						$("#itemwrap").append(str);
+					} else {
+						var str = '<li  value="';
+						str += x + "_" + y;
+						str += '" id=';
+						str += citydata1['project'][key]['id'];
+						str += '><div class="itemDiv"><div class="item-img"><img src = "' + citydata1['project'][key]['img'] + '"/></div>';
+						str += '<h4 style="font-size:16px"><span class="mui-badge mui-badge-primary" style="font-size: 16px;background-color:#00A55A">工业</span>';
+						str += citydata1['project'][key]['projectName'] + '</h4><p style="text-align:left"><span class="mui-badge">简介</span>' + citydata1['project'][key]['profile'] + '<p/></div></li>';
+						$("#itemwrap").append(str);
+					}
+
+				}
+
+				for(key in citydata2['project']) {
+					var x = citydata2['project'][key]['lng'];
+					var y = citydata2['project'][key]['lat'];
+
+					var marker = new AMap.Marker({
+						map: map,
+						position: [x, y],
+						icon: icon2
+					});
+
+					markers.push(marker);
+
+					var str = '<li  value="';
+					str += x + "_" + y;
+					str += '" id=';
+					str += citydata2['project'][key]['id'];
+					str += '><div class="itemDiv"><div class="item-img"><img src = "' + citydata2['project'][key]['img'] + '"/></div>';
+					str += '<h4 style="font-size:16px"><span class="mui-badge mui-badge-primary" style="font-size: 16px;background-color:#3C8DBC">市政</span>';
+					str += citydata2['project'][key]['projectName'] + '</h4><p style="text-align:left"><span class="mui-badge">简介</span>' + citydata2['project'][key]['profile'] + '<p/></div></li>';
+					$("#itemwrap").append(str);
+
+				}
+
+				for(key in citydata3['project']) {
+					var x = citydata3['project'][key]['lng'];
+					var y = citydata3['project'][key]['lat'];
+
+					var marker = new AMap.Marker({
+						map: map,
+						position: [x, y],
+						icon: icon3
+					});
+
+					markers.push(marker);
+
+					var str = '<li  value="';
+					str += x + "_" + y;
+					str += '" id=';
+					str += citydata3['project'][key]['id'];
+					str += '><div class="itemDiv"><div class="item-img"><img src = "' + citydata3['project'][key]['img'] + '"/></div>';
+					str += '<h4 style="font-size:16px"><span class="mui-badge mui-badge-primary" style="font-size: 16px;background-color:#DD4B39">整治</span>';
+					str += citydata3['project'][key]['projectName'] + '</h4><p style="text-align:left"><span class="mui-badge">简介</span>' + citydata3['project'][key]['profile'] + '<p/></div></li>';
+					$("#itemwrap").append(str);
+
+				}
+				for(key in citydata5['project']) {
+					var x = citydata5['project'][key]['lng'];
+					var y = citydata5['project'][key]['lat'];
+
+					var marker = new AMap.Marker({
+						map: map,
+						position: [x, y],
+						icon: icon5
+					});
+
+					markers.push(marker);
+
+					var str = '<li  value="';
+					str += x + "_" + y;
+					str += '" id=';
+					str += citydata5['project'][key]['id'];
+					str += '><div class="itemDiv"><div class="item-img"><img src = "' + citydata5['project'][key]['img'] + '"/></div>';
+					str += '<h4 style="font-size:16px"><span class="mui-badge mui-badge-primary" style="font-size: 16px;background-color:#605CA8">畜禽</span>';
+					str += citydata5['project'][key]['projectName'] + '</h4><p style="text-align:left"><span class="mui-badge">简介</span>' + citydata5['project'][key]['profile'] + '<p/></div></li>';
+					$("#itemwrap").append(str);
+
+				}
+				for(key in citydata4['project']) {
+					var x = citydata4['project'][key]['lng'];
+					var y = citydata4['project'][key]['lat'];
+
+					var marker = new AMap.Marker({
+						map: map,
+						position: [x, y],
+						icon: icon4
+					});
+
+					markers.push(marker);
+
+					var str = '<li  value="';
+					str += x + "_" + y;
+					str += '" id=';
+					str += citydata4['project'][key]['id'];
+					str += '><div class="itemDiv"><div class="item-img"><img src = "' + citydata4['project'][key]['img'] + '"/></div>';
+					str += '<h4 style="font-size:16px"><span class="mui-badge mui-badge-primary" style="font-size: 16px;background-color:#F39C12"">企业</span>';
+					str += citydata4['project'][key]['projectName'] + '</h4><p style="text-align:left"><span class="mui-badge">简介</span>' + citydata4['project'][key]['profile'] + '<p/></div></li>';
+					$("#itemwrap").append(str);
+
+				}
+
+				for(mk in markers) {
+					markers[mk].on("click", function(e) {
+						$(".ac-pass").blur();
+						attribute(this.getPosition());
+						//							console.log(this.getPosition());
+
+					});
+
+				}
+				setInit();
+				map.setFitView();
+			}
+		</script>
+	</body>
+
+</html>

@@ -14,7 +14,10 @@
 		<style>
 			html,
 			body {
-				background-color: #efeff4;
+				font-family: "微软雅黑", 'Roboto', sans-serif;
+				font-size: 100%;
+				background-color: #f0f2f5;
+				padding: 0.1em 0;
 			}
 			
 			.mui-bar~.mui-content .mui-fullscreen {
@@ -125,6 +128,7 @@
 				background-color: white;
 				color: #007aff;
 				padding: 2px;
+				border-radius: 4px;
 			}
 			
 			.mui-badge.mui-badge-danger {
@@ -132,6 +136,7 @@
 				background-color: white;
 				color: #dd524d;
 				padding: 2px;
+				border-radius: 4px;
 			}
 			
 			#commentTime {
@@ -141,34 +146,81 @@
 				text-align: left;
 			}
 			
+			.itemCity {
+				float: right;
+				text-decoration: underline;
+			}
+			
 			#commentTag {
 				/*margin-right: 10px;*/
 				font-size: 12px;
 				text-align: left;
 			}
-			.mui-bar-tab .mui-tab-item.mui-active{
-				color: #619C00;
+			
+			.mui-media-body {
+				font-size: 17px;
 			}
-			.mui-bar-nav{
+			
+			.mui-bar-nav {
 				background-color: #619C00;
 			}
-			.mui-bar .mui-title{
+			
+			.mui-bar .mui-title {
 				font-size: 18px;
 				font-weight: bold;
-				color:#FFFFFF;
+				color: #FFFFFF;
 				margin: 2px;
 			}
+			
+			.gototop-button {
+				border-radius: 222px;
+				bottom: 60px;
+				/*box-shadow: 0 0 10px rgba(0, 0, 0, 1.05);*/
+				/*line-height: 20px;*/
+				/*padding: 5px;*/
+				position: fixed;
+				right: 15px;
+				z-index: 200;
+			}
+			
+			.gototop-button img {
+				height: 80px;
+				max-width: 80px;
+			}
+			/*.mui-popover{
+				width: 100px;
+				
+			}
+			#Popover_1 .mui-table-view-cell{
+				font-weight: bold;
+				background-color: #619C00;
+			}
+			.mui-popover .mui-popover-arrow:after {
+				background-color: #619C00;
+			}*/
 		</style>
 	</head>
 
 	<body>
+		<!--<div id="Popover_1" class="mui-popover mui-bar-popover">
+			<div class="mui-popover-arrow" style=""></div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell"><a href="#">发布问题</a>
+				</li>
+				<li class="mui-table-view-cell"><a href="#">发布技术</a>
+				</li>
+				<!--<li class="mui-table-view-cell"><a href="#">TV方案</a>
+				</li>-->
+		<!--</ul>-->
+		<!--</div>-->
+		<a class="gototop gototop-button" href="post.html"><img src="images/pen2.png"></a>
 		<nav class="mui-bar mui-bar-tab" id='bottomx'>
 			<!--<a>
 				<div style="text-align: center;vertical-align: middle;padding: 3px;">
 					<img src="images/post.png" style="height: 40px;">
 				</div>
 			</a>-->
-			<a id="defaultTab" class="mui-tab-item" href="index.html" >
+			<a id="defaultTab" class="mui-tab-item" href="index.html">
 				<span class="mui-icon mui-icon-home"></span>
 				<span class="mui-tab-label">首页</span>
 			</a>
@@ -177,8 +229,8 @@
 				<span class="mui-tab-label">发现</span>
 			</a>
 			<a class="mui-tab-item" href="setting.html">
-				<span class="mui-icon mui-icon-gear"></span>
-				<span class="mui-tab-label">设置</span>
+				<span class="mui-icon mui-icon-person"></span>
+				<span class="mui-tab-label">我的</span>
 			</a>
 		</nav>
 
@@ -193,27 +245,50 @@
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
-						<a class="mui-control-item mui-active" href="#item1mobile" style="width:120px;">
-							资讯
+						<a class="mui-control-item mui-active" href="#item1mobile" style="width:120px;" id="industry">
+							工业
 						</a>
-						<a class="mui-control-item" href="#item2mobile" style="width:120px;">
-							环保论坛
+						<a class="mui-control-item " href="#item2mobile" style="width:120px;" id="city_planning">
+							市政
 						</a>
-						<a class="mui-control-item" href="#item3mobile" style="width:120px;">
-							可追加项目
+						<a class="mui-control-item" href="#item3mobile" style="width:120px;" id="renovate">
+							整治
 						</a>
+						<a class="mui-control-item" href="#item4mobile" style="width:120px;" id="farm">
+							畜禽
+						</a>
+						<a class="mui-control-item" href="#itemm5obile" style="width:120px;" id="company">
+							企业
+						</a>
+						<a class="mui-control-item" href="#item6mobile" style="width:120px;" id="technology">
+							技术
+						</a>
+						<a class="mui-control-item" href="#item7mobile" style="width:120px;" id="humanResource">
+							人才
+						</a>
+
 					</div>
 				</div>
 				<div class="mui-slider-group">
 					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
-						<div id="scroll1" class="mui-scroll-wrapper">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view" id="ul_industry">
+
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
 								<ul class="mui-table-view">
-									<li class="mui-table-view-cell mui-media">
+									<li class="mui-table-view-cell mui-media" onclick="window.location.href='faxian_detail.html'">
 										<a href="javascript:;">
 											<img class=" mui-pull-left" src="images/shuijiao.jpg">
 											<div class="mui-media-body">
 												上海垃圾处理能力接近饱和
+												<label class="itemCity">aaa</label>
 												<p class='mui-ellipsis'>
 													原标题：“上海垃圾偷倒太湖”背后的治理难题ddd
 												</p>
@@ -226,90 +301,98 @@
 											</div>
 										</a>
 									</li>
-									<li class="mui-table-view-cell mui-media">
-										<a href="javascript:;">
-											<img class="mui-pull-left" src="images/muwu.jpg">
-											<div class="mui-media-body">
-												"垃圾偷倒太湖"的背后困境:特大城市被"垃圾围城"
-												<p class='mui-ellipsis'>7月19日晚，江苏南通海门市新江海河苏州路桥旁，两台挖掘机正在清理来自上海的偷倒垃圾。
-												</p>
-												<div class="commentNum">
-
-													<span id="commentTime">2小时前</span>
-													<span class="mui-icon mui-icon-chatboxes"></span>12
-													<span id="commentTag" class="mui-badge mui-badge-danger">热门</span>
-												</div>
-											</div>
-										</a>
-									</li>
-									<li class="mui-table-view-cell mui-media">
-										<a href="javascript:;">
-											<img class="mui-pull-left" src="images/cbd.jpg">
-											<div class="mui-media-body">
-												开启能源互联网新时代
-												<p class='mui-ellipsis'>国务院新闻办日前召开“互联网+SFSDFDFd国务院新闻办日前</p>
-											</div>
-											<div class="commentNum">
-
-												<span id="commentTime">23小时前</span>
-												<span class="mui-icon mui-icon-chatboxes"></span>12
-												<span id="commentTag" class="mui-badge mui-badge-danger">热门</span>
-											</div>
-										</a>
-									</li>
-									<li class="mui-table-view-cell mui-media">
-										<a href="javascript:;">
-											<img class="mui-pull-left" src="images/cbd.jpg">
-											<div class="mui-media-body">
-												推进绿色供应链管理正当时 应发挥行业组织的作用，以龙头企业作为突破口
-												<p class='mui-ellipsis'>国务院新闻办日前召开“互联网+</p>
-											</div>
-											<div class="commentNum">
-
-												<span id="commentTime">1天前</span>
-												<!--<label style="margin-right: 40px;font-size: 10px; ">1小时前</label>
-												<label style="margin-right: 40px;"><span class="mui-icon mui-icon-compose"></span>评论</label>-->
-												<span class="mui-icon mui-icon-chatboxes"></span>56
-												<span id="commentTag" class="mui-badge mui-badge-danger">热门</span>
-											</div>
-										</a>
-									</li>
-									<li class="mui-table-view-cell mui-media">
-										<a href="javascript:;">
-											<!--<img class="mui-pull-left" src="images/cbd.jpg">-->
-											<div class="mui-media-body">
-												天津公布上半年环境空气质量状况 PM2.5浓度同比下降12.5%
-												<p class='mui-ellipsis'>上半年，天津市环境空气质量综合指数6.37，同比下降12.5%；达标天数115天，同比增加20</p>
-											</div>
-											<div class="commentNum">
-												<span id="commentTime">2天前</span>
-												<span class="mui-icon mui-icon-chatboxes"></span>56
-											</div>
-										</a>
-									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item3mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view" id="ul_renovate">
 
 								</ul>
 							</div>
 						</div>
 					</div>
-				</div>
-				<!--<div id="item2mobile" class="mui-slider-item mui-control-content">
-						<div class="mui-scroll-wrapper">
-							<div class="mui-scroll">
-								<ul class="mui-table-view">
-							
-								</ul>
-							</div>
-						</div>
-					</div>-->
 
+				</div>
 			</div>
 		</div>
 
 		<script src="js/mui.pullToRefresh.js"></script>
 		<script src="js/mui.pullToRefresh.material.js"></script>
+		<script type="text/javascript" src="js/map/data.js"></script>
 		<script>
 			mui.init();
+			$(document).ready(function() {
+
+				var str = "industry";
+				var data = index_data[str][0]['address'];
+				addItem(data[0], "#ul_industry");
+
+				str = "renovate"
+				data = index_data[str][0]['address'];
+				addItem(data[0], "#ul_renovate");
+
+			});
+
+			function addItem(data, id) {
+				var li;
+				for(key in data) {
+					var cityName = data[key][0]['cityName'];
+
+					for(a in data[key][0]['project']) {
+						var imgsrc = data[key][0]['project'][a]['img'];
+						var projectName = data[key][0]['project'][a]['projectName'];
+						var profile = data[key][0]['project'][a]['profile'];
+						//						console.log(data[0][key][0]['project'][a]);
+						var img;
+						var div1;
+						var p;
+						var div2;
+						var span1, span2, lable, label1;
+						li = document.createElement('li');
+						li.className = 'mui-table-view-cell mui-media';
+						img = document.createElement('img');
+						img.className = 'mui-pull-left';
+						img.src = imgsrc;
+						div1 = document.createElement('div');
+						div1.className = 'mui-media-body';
+						//						if(img.src != "" || img.src != null) {
+						//							
+						//						}
+						li.appendChild(img);
+						div1.innerHTML = projectName;
+						lable1 = document.createElement('label');
+						lable1.className = 'itemCity';
+						lable1.innerHTML = '<a href="">' + cityName + '</a>';
+						p = document.createElement('p');
+						p.className = "mui-ellipsis";
+						p.innerHTML = profile;
+						div1.appendChild(lable1);
+						div1.appendChild(p);
+						div2 = document.createElement('div');
+						div2.className = 'commentNum';
+						lable = document.createElement('label');
+
+						span1 = document.createElement('span');
+						span1.id = "commentTime";
+						span1.innerHTML = '2016-7-30';
+						lable.appendChild(span1);
+						div2.appendChild(lable);
+						span2 = document.createElement('span');
+						span2.className = "mui-icon mui-icon-chatboxes";
+						div2.appendChild(span2);
+						lable = document.createElement('label');
+						lable.innerHTML = 120;
+						div2.appendChild(lable);
+						div1.appendChild(div2);
+						li.appendChild(div1);
+						$(id).append(li);;
+					}
+				}
+			}
+
 			(function($) {
 				//阻尼系数
 				var deceleration = mui.os.ios ? 0.003 : 0.0009;
@@ -319,6 +402,7 @@
 					deceleration: deceleration
 				});
 				$.ready(function() {
+
 					//循环初始化所有下拉刷新，上拉加载。
 					$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
 						$(pullRefreshEl).pullToRefresh({
@@ -400,6 +484,48 @@
 					};
 				});
 			})(mui);
+			mui.plusReady(function() {
+				mui('.mui-scroll-wrapper').on('tap', 'a', function(e) {
+
+				});
+
+				mui('.mui-bar-tab').on('tap', 'a', function(e) {
+					var targetTab = this.getAttribute('href');
+					if(targetTab == "faxian_main.html") {
+						return;
+					}
+					// 在Android5以上设备，如果默认没有开启硬件加速，则强制设置开启
+					if(!plus.webview.defaultHardwareAccelerated() && parseInt(plus.os.version) >= 5) {
+						styles.hardwareAccelerated = true;
+					}
+					if(targetTab == "setting.html") {
+						var settingPage = mui.openWindow({
+							url: 'setting.html',
+							id: "setting.html",
+							createNew: false
+						});
+						settingPage.show("fade-in");
+					}
+					if(targetTab == "index.html") {
+						var indexPage = plus.webview.getWebviewById(plus.runtime.appid);
+						indexPage.show("fade-in");
+					}
+				});
+			});
+			var first = null;
+			mui.back = function() {
+				if(!first) {
+					first = new Date().getTime();
+					mui.toast('再按一次退出应用');
+					setTimeout(function() {
+						first = null;
+					}, 1000);
+				} else {
+					if(new Date().getTime() - first < 1000) {
+						plus.runtime.quit();
+					}
+				}
+			};
 		</script>
 	</body>
 

@@ -8,21 +8,124 @@
 		<script src="js/mui.min.js"></script>
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="js/info.js"></script>
+		<script src="js/jquery.autosize.js"></script>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<style>
-		    .top img{
-		    	width:100%;
-		    }
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+			
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			
+			li .oa-contact-avatar {
+				width: 45px;
+			}
+			
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			
+			.oa-contact-content {
+				width: 100%;
+			}
+			
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			
+			.oa-contact-name,
+			oa-contact-position {
+				float: left;
+			}
+			
+			footer {
+				position: fixed;
+				width: 100%;
+				height: 50px;
+				min-height: 50px;
+				border-top: solid 1px #bbb;
+				left: 0px;
+				bottom: 0px;
+				overflow: hidden;
+				padding: 0px 10px;
+				background-color: #ffffff;
+			}
+			
+			.footer-left {
+				position: absolute;
+				width: 50px;
+				height: 50px;
+				left: 0px;
+				bottom: 0px;
+				text-align: center;
+				vertical-align: middle;
+				line-height: 100%;
+				/*padding: 12px 0px;*/
+			}
+			
+			.footer-right {
+				position: absolute;
+				width: 55px;
+				height: 37px;
+				right: 7px;
+				bottom: 6px;
+				text-align: center;
+				vertical-align: middle;
+				line-height: 100%;
+				padding: 11px 2px;
+				display: inline-block;
+			}
+			
+			.footer-center {
+				height: 100%;
+				padding: 3px 0px;
+			}
+			
+			.footer-center [class*=input] {
+				width: 90%;
+				height: 100%;
+				border-radius: 5px;
+			}
+			
+			.footer-center .input-text {
+				background: #fff;
+				border: solid 1px #ddd;
+				padding: 10px !important;
+				font-size: 16px !important;
+				line-height: 18px !important;
+				font-family: verdana !important;
+				overflow: hidden;
+			}
+			
+			.footer-center .input-sound {
+				background-color: #eee;
+			}
+			
+			.top img {
+				margin-top: 44px;
+				width: 100%;
+			}
+			
 			.info {
 				margin: 20px;
 				border-left: 10px solid #00A843;
 				background-color: #FFFFFF;
 			}
+			
 			.info .title {
 				padding-top: 10px;
 				padding-bottom: 10px;
 			}
-			.info > .title > span {
+			
+			.info> .title> span {
 				margin-left: 10px;
 				color: #00A843;
 				font-weight: bold;
@@ -53,63 +156,200 @@
 				color: #518694;
 				border-bottom: 1px solid #000000
 			}
+			
+			#msg-text {
+				border: 0;
+				border-bottom: 1px solid #C0C0C0;
+			}
 		</style>
 		<script type="text/javascript" charset="UTF-8">
 			mui.init();
 			mui.ready(function() {
-				$(".top").append("<img src='"+infos.topImg+"'>");
+				companyId = GetQueryString('id');
+				infos = infos[companyId];
+				$(".top").append("<img src='" + infos.topImg + "'>");
 				$("#companyInfo p").html(infos.companyInfo);
 				$.each(infos.pollutantType, function(index, item) {
 					var html = '';
 					html = '<tr><td width="25%" align="center" valign="middle"><span style="border-bottom: 1px solid #000000;">';
-					html += item.type;
+					html += "<a href='" + item.url + "' style='color:#FFFFFF'>" + item.type + "</a>";
 					html += '</span></td><td width="75%" valign="middle"><p style="color: #DAE6E9;margin: 10px;">';
 					html += item.info;
 					html += '</p></td></tr>';
 					$(".techType").append(html);
-				})
+				});
 				$.each(infos.infoAbout, function(index, item) {
 					var html = '';
 					html = "<p>";
 					html += item.title;
 					html += "： ";
 					$.each(item.names, function(i, t) {
-						html += "<a>"+t.name+"</a>、"
+						html += "<a href='" + item.url + "?id=" + t.id + "'>" + t.name + "</a>、"
 					});
-					html=html.substring(0,html.length-1); 
+					html = html.substring(0, html.length - 1);
 					$(".infoAbout").append(html);
+				});
+				$("#msg-text").autosize();
+				var floor = 5;
+				$("#report").click(function() {
+					html = '<li class="mui-table-view-cell">';
+					html += '<div class="mui-slider-cell">';
+					html += '<div class="oa-contact-cell mui-table">';
+					html += '<div class="oa-contact-avatar mui-table-cell">';
+					html += '<img src="images/60x60.gif" width="35px" />';
+					html += '</div>';
+					html += '<div class="oa-contact-content mui-table-cell">';
+					html += '<div class="mui-clearfix">';
+					html += '<h5 class="oa-contact-name">史强</h5>';
+					html += '<span class="oa-contact-position mui-h6">';
+					html += floor+'楼</span></div>';
+					html += '<p class="oa-contact-email mui-h6">';
+					html += $("#msg-text").val();
+					html += '</p></div></div></div></li>';
+					floor++;
+					$("#comment").append(html);
+					$("#msg-text").val('');
+					$("#msg-text").height(36);
+					$("footer").height(37);
+					setTimeout(function() {
+						var wHeight = $(window).height(); //窗口高度
+						var botHeight = $("footer").height(); //底部高度
+						var countHeight = wHeight - botHeight; //正文高度计算
+						$(".mui-content").height(countHeight);
+//						$('.mui-content').scrollTop( $('.mui-content')[0].scrollHeight );
+						$('.mui-content').animate({scrollTop:$('.mui-content')[0].scrollHeight},200);
+					}, 400);
+					
 				})
 			})
+
+			function GetQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) return unescape(r[2]);
+				return null;
+			}
 		</script>
 	</head>
 
-	<body>
+	<body style="overflow: hidden;">
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">污染详情</h1>
 		</header>
-		<div class="top">
-		</div>
-		<div class="info">
-			<div class="title" id="companyInfo">
-				<span style="border-bottom: 1px solid #000000;">
+		<div class="mui-content" style="overflow-y: auto;padding-top:0">
+			<div class="top">
+			</div>
+			<div class="info">
+				<div class="title" id="companyInfo">
+					<span style="border-bottom: 1px solid #000000;">
 						公司简介
 				</span>
-				<p>
-				</p>
+					<p style="margin-top: 5px;">
+					</p>
+				</div>
 			</div>
-		</div>
-		<div class="info">
-			<div class="title">
-				<span>
+			<div class="info">
+				<div class="title">
+					<span>
 					污染物及处理工艺简介
 					</span>
-				<div class="techInfo">
-					<table class="techType"></table>
-				</div>
-				<div class="infoAbout">
+					<div class="techInfo">
+						<table class="techType"></table>
+					</div>
+					<div class="infoAbout" style="line-height: 25px">
+					</div>
 				</div>
 			</div>
+			<hr>
+
+			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id='comment'>
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-cell">
+						<div class="oa-contact-cell mui-table">
+							<div class="oa-contact-avatar mui-table-cell">
+								<img src="images/60x60.gif" width="35px" />
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h5 class="oa-contact-name">叶文洁</h5>
+									<span class="oa-contact-position mui-h6">1楼</span>
+								</div>
+								<p class="oa-contact-email mui-h6">
+									我是评论我是评论我是评论
+								</p>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-cell">
+						<div class="oa-contact-cell mui-table">
+							<div class="oa-contact-avatar mui-table-cell">
+								<img src="images/60x60.gif" width="35px" />
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h5 class="oa-contact-name">艾AA</h5>
+									<span class="oa-contact-position mui-h6">2楼</span>
+								</div>
+								<p>
+									我是评论我是评论我是评论
+								</p>
+							</div>
+						</div>
+					</div>
+				</li>
+
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-cell">
+						<div class="oa-contact-cell mui-table">
+							<div class="oa-contact-avatar mui-table-cell">
+								<img src="images/60x60.gif" width="35px" />
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h5 class="oa-contact-name">云天明</h5>
+									<span class="oa-contact-position mui-h6">3楼</span>
+								</div>
+								<p class="oa-contact-email mui-h6">
+									我是评论我是评论我是评论
+								</p>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-cell">
+						<div class="oa-contact-cell mui-table">
+							<div class="oa-contact-avatar mui-table-cell">
+								<img src="images/60x60.gif" width="35px" />
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h5 class="oa-contact-name">史强</h5>
+									<span class="oa-contact-position mui-h6">4楼</span>
+
+								</div>
+								<p class="oa-contact-email mui-h6">
+									我是评论我是评论我是评论
+								</p>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+
+			<!--<div style="height: 40px;"></div>-->
 		</div>
+		<footer>
+			<div class="footer-center">
+				<textarea id='msg-text' type="text" class='input-text' placeholder="说点什么吧..." style="height:40px;max-height: 100px;overflow: hidden; clip:rect()"></textarea>
+			</div>
+			<div class="footer-right mui-btn mui-btn-primary" id="report">
+				发表
+			</div>
+		</footer>
 	</body>
+
 </html>

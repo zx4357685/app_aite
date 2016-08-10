@@ -14,7 +14,7 @@ if(window.plus){
     document.addEventListener('plusready',plusReady,false);
 }
 
-var checkUrl="http://192.168.1.11/check.php";
+var checkUrl="http://192.168.31.127/check.php";
 function checkUpdate(){
     plus.nativeUI.showWaiting("检测更新...");
     var xhr=new XMLHttpRequest();
@@ -44,7 +44,7 @@ function checkUpdate(){
 }
 
 // 下载wgt文件
-var wgtUrl="http://192.168.1.11/H507D945B.wgt";
+var wgtUrl="http://192.168.31.127/H507D945B.wgt";
 function downWgt(){
     plus.nativeUI.showWaiting("下载wgt文件...");
     plus.downloader.createDownload( wgtUrl, {filename:"_doc/update/"}, function(d,status){
