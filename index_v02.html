@@ -248,14 +248,14 @@
 					e.preventDefault();
 				}, false);
 
-				$("#scroller a").click(function() {
+				$("#scroller li").click(function() {
 					$("#itemwrap").html("");
-					map = new AMap.Map("container", {
-						resizeEnable: true
-					});
+//					map = new AMap.Map("container", {
+//						resizeEnable: true
+//					});
 					$("#scroller li").removeClass('testClass');
-					$(this).parent('li').addClass('testClass');
-					var str = $(this).parent('li').attr("id");
+					$(this).addClass('testClass');
+					var str = $(this).attr("id");
 					if(str == "all") {
 						add_all_point();
 					} else {
@@ -271,64 +271,11 @@
 				});
 				add_all_point();
 
-				function add_point(point) {
-					var icon = new AMap.Icon({
-						size: new AMap.Size(55, 35), //图标大小
-						image: icon_image,
-						clickable: true
-					});
-					var markers = [];
-					for(key in citydata['project']) {
-						var x = point['project'][key]['lng'];
-						var y = point['project'][key]['lat'];
-
-						var marker = new AMap.Marker({
-							map: map,
-							position: [x, y],
-							icon: icon
-						});
-
-						markers.push(marker);
-						if(key == 0) {
-							var str = '<li class="current" value="';
-							str += x + "_" + y;
-							str += '" id=';
-							str += point['project'][key]['id'];
-							str += '><div class="itemDiv"><div class="item-img"><img src = "' + point['project'][key]['img'] + '"/></div>';
-							str += '<h4 style="font-size:16px">';
-							str += point['project'][key]['projectName'] + '</h4><p style="text-align:left"><span class="mui-badge">简介</span>' + point['project'][key]['profile'] + '<p/></div></li>';
-							$("#itemwrap").append(str);
-						} else {
-							var str = '<li  value="';
-							str += x + "_" + y;
-							str += '" id=';
-							str += point['project'][key]['id'];
-							str += '><div class="itemDiv"><div class="item-img"><img src = "' + point['project'][key]['img'] + '"/></div>';
-							str += '<h4 style="font-size:16px">';
-							str += point['project'][key]['projectName'] + '</h4><p style="text-align:left"><span class="mui-badge">简介</span>' + point['project'][key]['profile'] + '<p/></div></li>';
-							$("#itemwrap").append(str);
-						}
-
-					}
-
-					for(mk in markers) {
-						markers[mk].on("click", function(e) {
-							attribute(this.getPosition());
-							$(".ac-pass").blur();
-						});
-
-					}
-
-					map.setFitView();
-				}
-
 				var elem = document.getElementById("testLeft");
 				elem.addEventListener("swipeleft", function() {
-					console.log("你正在向左滑动");
 					navigate('next');
 				});
 				elem.addEventListener("swiperight", function() {
-					console.log("你正在向right滑动");
 					navigate('prev');
 				});
 				elem.addEventListener("click", function() {
@@ -337,7 +284,7 @@
 						url: 'info.html?id=' + id
 					});
 				});
-				
+
 				mui('#postPage').on('tap', 'a', function(e) {
 					var postPage = mui.openWindow({
 						url: 'post.html',
@@ -411,7 +358,7 @@
 			var longitude = "";
 			var latitude = "";
 			mui.plusReady(function() {
-				
+
 				plus.geolocation.getCurrentPosition(function(p) {
 					var geocoder = new AMap.Geocoder({
 						radius: 1000,
@@ -419,18 +366,18 @@
 					});
 					longitude = p.coords.longitude;
 					latitude = p.coords.latitude;
-					var lnglatXY = [longitude, latitude]; 
+					var lnglatXY = [longitude, latitude];
 					geocoder.getAddress(lnglatXY, function(status, result) {
 						if(status === 'complete' && result.info === 'OK') {
 							gpsCity = result.regeocode.addressComponent.city //返回地址描述
-							if(gpsCity.substr(gpsCity.length-1,1)=='市'){
-								gpsCity=gpsCity.substring(0,gpsCity.length-1);
+							if(gpsCity.substr(gpsCity.length - 1, 1) == '市') {
+								gpsCity = gpsCity.substring(0, gpsCity.length - 1);
 							}
 							plus.storage.setItem('gpsCity', gpsCity);
 						}
 					});
 				}, function(e) {
-					alert("Geolocation error: " + e.message);
+					alert("当前gps信号弱，已默认切换城市为大连");
 				});
 				$("#myla,.point").click(function() {
 					$(".ac-pass").blur();
@@ -575,10 +522,9 @@
 			}
 
 			function add_all_point() {
-
-				//					map = new AMap.Map("container", {
-				//						resizeEnable: true
-				//					});
+				map = new AMap.Map("container", {
+					resizeEnable: true
+				});
 				var city = $("#myla").html();
 				var alldata = index_data;
 				var industryData = alldata["industry"][0]['address'];
@@ -761,6 +707,60 @@
 
 				}
 				setInit();
+				map.setFitView();
+			}
+
+			function add_point(point) {
+				map = new AMap.Map("container", {
+					resizeEnable: true
+				});
+				var icon = new AMap.Icon({
+					size: new AMap.Size(55, 35), //图标大小
+					image: icon_image,
+					clickable: true
+				});
+				var markers = [];
+				for(key in citydata['project']) {
+					var x = point['project'][key]['lng'];
+					var y = point['project'][key]['lat'];
+
+					var marker = new AMap.Marker({
+						map: map,
+						position: [x, y],
+						icon: icon
+					});
+
+					markers.push(marker);
+					if(key == 0) {
+						var str = '<li class="current" value="';
+						str += x + "_" + y;
+						str += '" id=';
+						str += point['project'][key]['id'];
+						str += '><div class="itemDiv"><div class="item-img"><img src = "' + point['project'][key]['img'] + '"/></div>';
+						str += '<h4 style="font-size:16px">';
+						str += point['project'][key]['projectName'] + '</h4><p style="text-align:left"><span class="mui-badge">简介</span>' + point['project'][key]['profile'] + '<p/></div></li>';
+						$("#itemwrap").append(str);
+					} else {
+						var str = '<li  value="';
+						str += x + "_" + y;
+						str += '" id=';
+						str += point['project'][key]['id'];
+						str += '><div class="itemDiv"><div class="item-img"><img src = "' + point['project'][key]['img'] + '"/></div>';
+						str += '<h4 style="font-size:16px">';
+						str += point['project'][key]['projectName'] + '</h4><p style="text-align:left"><span class="mui-badge">简介</span>' + point['project'][key]['profile'] + '<p/></div></li>';
+						$("#itemwrap").append(str);
+					}
+
+				}
+
+				for(mk in markers) {
+					markers[mk].on("click", function(e) {
+						attribute(this.getPosition());
+						$(".ac-pass").blur();
+					});
+
+				}
+
 				map.setFitView();
 			}
 		</script>

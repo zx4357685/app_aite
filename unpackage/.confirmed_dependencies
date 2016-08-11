@@ -104,7 +104,20 @@
       "images/info/0.png",
       "images/info/22.png",
       "images/info/21.png",
-      "images/info/20.png"
+      "images/info/20.png",
+      "images/info/32.png",
+      "images/info/10.png",
+      "images/info/50.png",
+      "images/info/5.png",
+      "images/info/13.png",
+      "images/info/12.png",
+      "images/info/51.png",
+      "images/info/4.png",
+      "images/info/29.png",
+      "images/info/11.png",
+      "images/info/30.jpg",
+      "images/info/6.png",
+      "images/info/31.png"
     ],
     "refer": [
       "index.html",
@@ -131,7 +144,8 @@
       "images/info/12.png",
       "images/info/11.png",
       "js/jquery.autosize.js",
-      "images/info/0.png"
+      "images/info/0.png",
+      "images/info/8.png"
     ],
     "refer": [
       "envPersion.html",
@@ -264,12 +278,19 @@
       "images/info/30.jpg",
       "images/info/0.png",
       "images/info/20.png",
-      "images/map/location-blue.png"
+      "images/map/location-blue.png",
+      "images/info/9.png",
+      "images/info/8.png",
+      "images/info/29.png",
+      "images/info/5.png",
+      "images/info/4.png",
+      "images/info/6.png"
     ],
     "refer": [
       "cityList.html",
       "info.html",
-      "faxian_main.html"
+      "faxian_main.html",
+      "setting.html"
     ]
   }
 }

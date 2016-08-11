@@ -168,27 +168,38 @@
 				companyId = GetQueryString('id');
 				infos = infos[companyId];
 				$(".top").append("<img src='" + infos.topImg + "'>");
-				$("#companyInfo p").html(infos.companyInfo);
-				$.each(infos.pollutantType, function(index, item) {
-					var html = '';
-					html = '<tr><td width="25%" align="center" valign="middle"><span style="border-bottom: 1px solid #000000;">';
-					html += "<a href='" + item.url + "' style='color:#FFFFFF'>" + item.type + "</a>";
-					html += '</span></td><td width="75%" valign="middle"><p style="color: #DAE6E9;margin: 10px;">';
-					html += item.info;
-					html += '</p></td></tr>';
-					$(".techType").append(html);
-				});
-				$.each(infos.infoAbout, function(index, item) {
-					var html = '';
-					html = "<p>";
-					html += item.title;
-					html += "： ";
-					$.each(item.names, function(i, t) {
-						html += "<a href='" + item.url + "?id=" + t.id + "'>" + t.name + "</a>、"
+				if(companyId != 0 && companyId != 2 && companyId != 10 && companyId != 12 && companyId != 13 && companyId != 20 && companyId != 22 && companyId != 31 && companyId != 50) {
+					$("#companyInfo p").html(infos.companyInfo);
+					$.each(infos.pollutantType, function(index, item) {
+						var html = '';
+						html = '<tr><td width="25%" align="center" valign="middle"><span style="border-bottom: 1px solid #000000;">';
+						html += "<a href='" + item.url + "' style='color:#FFFFFF'>" + item.type + "</a>";
+						html += '</span></td><td width="75%" valign="middle"><p style="color: #DAE6E9;margin: 10px;">';
+						html += item.info;
+						html += '</p></td></tr>';
+						$(".techType").append(html);
 					});
-					html = html.substring(0, html.length - 1);
-					$(".infoAbout").append(html);
-				});
+					$.each(infos.infoAbout, function(index, item) {
+						var html = '';
+						html = "<p>";
+						html += item.title;
+						html += "： ";
+						$.each(item.names, function(i, t) {
+							if(item.url != ''){
+								html += "<a href='" + item.url + "?id=" + t.id + "'>" + t.name + "</a>、"	
+							}else{
+								html += "<a>" + t.name + "</a>、"
+							}
+						});
+						html = html.substring(0, html.length - 1);
+						$(".infoAbout").append(html);
+					});
+				}else{
+					$(".info").remove();
+					img = '<img src="images/info/img_'+companyId+'.png" width="35px" style="margin-top: 0;" />';
+					$(".top").append(img);
+				}
+
 				$("#msg-text").autosize();
 				var floor = 5;
 				$("#report").click(function() {
@@ -202,7 +213,7 @@
 					html += '<div class="mui-clearfix">';
 					html += '<h5 class="oa-contact-name">史强</h5>';
 					html += '<span class="oa-contact-position mui-h6">';
-					html += floor+'楼</span></div>';
+					html += floor + '楼</span></div>';
 					html += '<p class="oa-contact-email mui-h6">';
 					html += $("#msg-text").val();
 					html += '</p></div></div></div></li>';
@@ -216,11 +227,24 @@
 						var botHeight = $("footer").height(); //底部高度
 						var countHeight = wHeight - botHeight; //正文高度计算
 						$(".mui-content").height(countHeight);
-//						$('.mui-content').scrollTop( $('.mui-content')[0].scrollHeight );
-						$('.mui-content').animate({scrollTop:$('.mui-content')[0].scrollHeight},200);
+						//						$('.mui-content').scrollTop( $('.mui-content')[0].scrollHeight );
+						$('.mui-content').animate({
+							scrollTop: $('.mui-content')[0].scrollHeight
+						}, 200);
 					}, 400);
-					
-				})
+
+				});
+				layoutHeight = $(window).height();
+				$(window).resize(function() {
+					clientHeight = $(window).height();
+					changeHeight = layoutHeight - clientHeight;
+					if(changeHeight < 100) {
+						var wHeight = $(window).height(); //窗口高度
+						var botHeight = $("footer").height(); //底部高度
+						var countHeight = wHeight - botHeight; //正文高度计算
+						$(".mui-content").height(countHeight);
+					}
+				});
 			})
 
 			function GetQueryString(name) {
@@ -257,7 +281,7 @@
 					<div class="techInfo">
 						<table class="techType"></table>
 					</div>
-					<div class="infoAbout" style="line-height: 25px">
+					<div class="infoAbout" style="line-height: 30px">
 					</div>
 				</div>
 			</div>

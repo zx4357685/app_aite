@@ -232,8 +232,18 @@
 							scrollTop: $('.mui-content')[0].scrollHeight
 						}, 200);
 					}, 400);
-
 				})
+				layoutHeight = $(window).height();
+				$(window).resize(function() {
+					clientHeight = $(window).height();
+					changeHeight = layoutHeight - clientHeight;
+					if(changeHeight < 100) {
+						var wHeight = $(window).height(); //窗口高度
+						var botHeight = $("footer").height(); //底部高度
+						var countHeight = wHeight - botHeight; //正文高度计算
+						$(".mui-content").height(countHeight);
+					}
+				});
 			})
 
 			function GetQueryString(name) {

@@ -238,32 +238,33 @@
 
 			<div class="mui-content-padded" style="margin: 5px;">
 				<div class="mui-input-row mui-search">
-					<input type="search" class="mui-input-clear" placeholder="搜索热点内容...">
+					<input type="search" class="mui-input-clear" placeholder="搜索热点内容..." disabled="disabled">
 				</div>
 
 			</div>
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
-						<a class="mui-control-item mui-active" href="#item1mobile" style="width:120px;" id="industry">
+						<a class="mui-control-item mui-active" href="#item1mobile" style="width:100px;" id="industry">
 							工业
 						</a>
-						<a class="mui-control-item " href="#item2mobile" style="width:120px;" id="city_planning">
+						<a class="mui-control-item " href="#item2mobile" style="width:100px;" id="city_planning">
 							市政
 						</a>
-						<a class="mui-control-item" href="#item3mobile" style="width:120px;" id="renovate">
+						<a class="mui-control-item" href="#item3mobile" style="width:100px;" id="renovate">
 							整治
 						</a>
-						<a class="mui-control-item" href="#item4mobile" style="width:120px;" id="farm">
+
+						<a class="mui-control-item" href="#item4mobile" style="width:100px;" id="farm">
 							畜禽
 						</a>
-						<a class="mui-control-item" href="#itemm5obile" style="width:120px;" id="company">
+						<a class="mui-control-item" href="#item5mobile" style="width:100px;" id="company">
 							企业
 						</a>
-						<a class="mui-control-item" href="#item6mobile" style="width:120px;" id="technology">
+						<a class="mui-control-item" href="#item6mobile" style="width:100px;" id="technology">
 							技术
 						</a>
-						<a class="mui-control-item" href="#item7mobile" style="width:120px;" id="humanResource">
+						<a class="mui-control-item" href="#item7mobile" style="width:100px;" id="humanResource">
 							人才
 						</a>
 
@@ -282,25 +283,8 @@
 					<div id="item2mobile" class="mui-slider-item mui-control-content">
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
-								<ul class="mui-table-view">
-									<li class="mui-table-view-cell mui-media" onclick="window.location.href='faxian_detail.html'">
-										<a href="javascript:;">
-											<img class=" mui-pull-left" src="images/shuijiao.jpg">
-											<div class="mui-media-body">
-												上海垃圾处理能力接近饱和
-												<label class="itemCity">aaa</label>
-												<p class='mui-ellipsis'>
-													原标题：“上海垃圾偷倒太湖”背后的治理难题ddd
-												</p>
-												<div class="commentNum">
+								<ul class="mui-table-view" id="ul_cityplanning">
 
-													<label id="commentTime"><span id="">21分钟前</span></label>
-													<span class="mui-icon mui-icon-chatboxes"></span>12
-													<span id="commentTag" class="mui-badge mui-badge-primary">置顶</span>
-												</div>
-											</div>
-										</a>
-									</li>
 								</ul>
 							</div>
 						</div>
@@ -309,6 +293,24 @@
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
 								<ul class="mui-table-view" id="ul_renovate">
+
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item4mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view" id="ul_farm">
+
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item5mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view" id="ul_company">
 
 								</ul>
 							</div>
@@ -323,16 +325,33 @@
 		<script src="js/mui.pullToRefresh.material.js"></script>
 		<script type="text/javascript" src="js/map/data.js"></script>
 		<script>
-			mui.init();
+			mui.init({
+
+				gestureConfig: {
+					swipe: false, //默认为true
+				}
+			});
 			$(document).ready(function() {
 
 				var str = "industry";
 				var data = index_data[str][0]['address'];
 				addItem(data[0], "#ul_industry");
 
+				str = "city_planning"
+				data = index_data[str][0]['address'];
+				addItem(data[0], "#ul_cityplanning");
+
 				str = "renovate"
 				data = index_data[str][0]['address'];
 				addItem(data[0], "#ul_renovate");
+
+				str = "farm"
+				data = index_data[str][0]['address'];
+				addItem(data[0], "#ul_farm");
+
+				str = "company"
+				data = index_data[str][0]['address'];
+				addItem(data[0], "#ul_company");
 
 			});
 
@@ -342,10 +361,13 @@
 					var cityName = data[key][0]['cityName'];
 
 					for(a in data[key][0]['project']) {
+
 						var imgsrc = data[key][0]['project'][a]['img'];
 						var projectName = data[key][0]['project'][a]['projectName'];
 						var profile = data[key][0]['project'][a]['profile'];
-						//						console.log(data[0][key][0]['project'][a]);
+
+						var ida = data[key][0]['project'][a]['id'];
+						console.log(ida);
 						var img;
 						var div1;
 						var p;
@@ -353,6 +375,8 @@
 						var span1, span2, lable, label1;
 						li = document.createElement('li');
 						li.className = 'mui-table-view-cell mui-media';
+						li.id=ida;
+
 						img = document.createElement('img');
 						img.className = 'mui-pull-left';
 						img.src = imgsrc;
@@ -374,7 +398,6 @@
 						div2 = document.createElement('div');
 						div2.className = 'commentNum';
 						lable = document.createElement('label');
-
 						span1 = document.createElement('span');
 						span1.id = "commentTime";
 						span1.innerHTML = '2016-7-30';
@@ -388,6 +411,9 @@
 						div2.appendChild(lable);
 						div1.appendChild(div2);
 						li.appendChild(div1);
+						li.addEventListener("click", function() {
+							window.location.href = 'info.html?id=' + $(this).attr("id")
+						});
 						$(id).append(li);;
 					}
 				}
@@ -395,6 +421,7 @@
 
 			(function($) {
 				//阻尼系数
+
 				var deceleration = mui.os.ios ? 0.003 : 0.0009;
 				$('.mui-scroll-wrapper').scroll({
 					bounce: false,
@@ -454,7 +481,6 @@
 							if(i != 3) {
 								li.appendChild(img);
 							}
-
 							div1.innerHTML = "加载测试数据标题" + i;
 							p = document.createElement('p');
 							p.className = "mui-ellipsis";
@@ -485,9 +511,6 @@
 				});
 			})(mui);
 			mui.plusReady(function() {
-				mui('.mui-scroll-wrapper').on('tap', 'a', function(e) {
-
-				});
 
 				mui('.mui-bar-tab').on('tap', 'a', function(e) {
 					var targetTab = this.getAttribute('href');
